@@ -1,15 +1,24 @@
-package modelos;
+package otros;
 
 public class GeneradorID {
-    private static int ultimoID = 0;
-
-    public static int generarID() {
-        ultimoID++;
-        // this.guardarUltimoID();
-        return ultimoID;
+    public static int generarIdGranja() {
+        int nuevoId = Configuracion.getContadorGranjas();
+        Configuracion.setContadorGranjas(nuevoId+1);
+        return nuevoId;
     }
 
-    public static void guardarUltimoID() {
-        // persiste la informacion en la granja del ultimo id
+    public static int generarIdGallina() {
+        int nuevoId = Configuracion.getContadorGallinas();
+        Configuracion.setContadorGallinas(nuevoId+1);
+        return nuevoId;
     }
+
+    public static int generarIdHuevo() {
+        int nuevoId = Configuracion.getContadorHuevos();
+        Configuracion.setContadorHuevos(nuevoId+1);
+        return nuevoId;
+    }
+
+
+
 }

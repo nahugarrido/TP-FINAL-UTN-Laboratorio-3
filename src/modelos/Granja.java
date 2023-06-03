@@ -1,8 +1,8 @@
 package modelos;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import otros.ClimaAPI;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class Granja {
     private String fecha;
     private DatosClima datosClima;
+
     public Granja(String fecha) {
         this.fecha = fecha;
         try {

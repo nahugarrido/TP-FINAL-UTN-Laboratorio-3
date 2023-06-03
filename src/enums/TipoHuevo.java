@@ -1,2 +1,5 @@
-package enums;public enum TamañoHuevos {
+package enums;
+
+public enum TipoHuevo {
+    S,M,L,XL;
 }

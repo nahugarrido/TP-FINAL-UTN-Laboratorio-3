@@ -1,9 +1,8 @@
-package modelos;
+package otros;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Date;
 import java.util.Scanner;
 
 public class ClimaAPI {
