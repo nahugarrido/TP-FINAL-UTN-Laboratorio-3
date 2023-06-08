@@ -39,6 +39,7 @@ public class DatosClima implements IToJSON {
 
     @Override
     public void fromJSON(JSONObject jsonObject) throws JSONException {
+        System.out.println("SEBA: " +jsonObject);
         JSONObject json_hourly = jsonObject.getJSONObject("hourly");
         JSONArray json_temperature = json_hourly.getJSONArray("temperature_2m");
         JSONArray json_relative_humidity = json_hourly.getJSONArray("relativehumidity_2m");
