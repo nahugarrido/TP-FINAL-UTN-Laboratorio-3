@@ -1,40 +1,42 @@
 package modelos;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import otros.ClimaAPI;
+import clima.ClimaAPI;
+import utiles.GeneradorID;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import java.util.Scanner;
 
-public class Granja {
+public class Granja implements Serializable {
+    private int id;
+    private String nombre;
     private String fecha;
-    private DatosClima datosClima;
+    private HashSet<Integer> usuariosValidos;
 
-    public Granja(String fecha) {
+    public Granja(String nombre, String fecha, int idUsuario) {
+        this.id = GeneradorID.generarIdGranja();
+        this.nombre = nombre;
         this.fecha = fecha;
-        try {
-            DatosClima datos = new DatosClima();
-            datos.fromJSON(obtenerDatos(this.fecha));
-            this.datosClima = datos;
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
+        this.usuariosValidos = new HashSet<>();
+        usuariosValidos.add(idUsuario);
+        ClimaAPI.actualizarDatosClima(this.getFecha());
     }
 
     @Override
     public String toString() {
         return "Granja{" +
-                "fecha='" + fecha + '\'' +
-                ", " + datosClima.toString() +
+                "id=" + id +
+                ", fecha='" + fecha + '\'' +
+                ", usuariosValidos=" + usuariosValidos +
                 '}';
     }
 
     public String ingresarFecha() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Debes ingresar la fecha en el formato: yyyy-mm-dd");
-        System.out.println("INGRESA UNA FECHA POR FAVOR:" );
+        System.out.println("INGRESA UNA FECHA POR FAVOR:");
         String leerFecha = scan.nextLine();
 
         this.setFecha(leerFecha);
@@ -55,20 +57,16 @@ public class Granja {
         // Actualizar fecha
         this.setFecha(nuevaFechaStr);
 
-        /// Obtener datos del clima de la fecha nueva
-        try {
-           JSONObject json =  this.obtenerDatos(this.getFecha());
-           DatosClima datos = new DatosClima();
-           datos.fromJSON(json);
-           this.setDatosClima(datos);
-        } catch (JSONException e) {
-            System.out.println(e);
-        }
+        // Actualizar datos del clima
+        ClimaAPI.actualizarDatosClima(this.getFecha());
     }
 
-    private JSONObject obtenerDatos(String fecha) throws JSONException {
-        JSONObject datos = new JSONObject(ClimaAPI.getInfo(fecha));
-        return datos;
+    public String getNombre() {
+        return nombre;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getFecha() {
@@ -79,11 +77,4 @@ public class Granja {
         this.fecha = fecha;
     }
 
-    public DatosClima getDatosClima() {
-        return datosClima;
-    }
-
-    public void setDatosClima(DatosClima datosClima) {
-        this.datosClima = datosClima;
-    }
 }

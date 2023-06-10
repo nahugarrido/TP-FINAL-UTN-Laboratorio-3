@@ -2,8 +2,12 @@ package enums;
 
 import java.util.HashMap;
 
-/* En este enum podemos poner la informacion de la raza como el ratio de los huevos o la forma en la que se adaptan al clima*/
+
 public enum Raza {
+    SUSSEX, RHODE_ISLAND_RED, LEGHORN;
+}
+
+/*public enum Raza {
     RHODE_ISLAND_RED(0,0,0,0,0,0),
     SUSSEX(0,0,0,0,0,0),
     LEGHORN(0,0,0,0,0,0);
@@ -34,4 +38,4 @@ public enum Raza {
     public HashMap<String, Double> getRatioHuevos() {
         return ratioHuevos;
     }
-}
+}*/

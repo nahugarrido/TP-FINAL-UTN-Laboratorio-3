@@ -1,4 +1,4 @@
-package enums;
+package clima;
 
 public enum CodigosClima {
     CIELO_LIMPIO(0, "Cielo Limpio"),

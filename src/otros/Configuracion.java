@@ -1,39 +1,83 @@
 package otros;
 
-/// esta clase la vamos a utilizar para poder generar los ids autoincrementales y no tener que usar UUID
-public class Configuracion {
-    private static int contadorGallinas = 0;
-    private static int contadorGranjas = 0;
-    private  static int contadorHuevos = 0;
+import utiles.Serializar;
 
-    public Configuracion() {
-    }
-    public static int getContadorGallinas() {
-        return contadorGallinas;
-    }
+import java.io.Serializable;
 
-    public static int getContadorGranjas() {
-        return contadorGranjas;
-    }
+/// Esta clase implementa el patron Singleton
 
-    public static int getContadorHuevos() {
-        return contadorHuevos;
+public class Configuracion implements Serializable {
+    private static Serializar serializar = new Serializar();
+    private static Configuracion instancia = null;
+    private int contadorGallinas = 0;
+    private int contadorGranjas = 0;
+    private int contadorHuevos = 0;
+    private int contadorUsuarios = 0;
+
+    private Configuracion() {
     }
 
-    public static void setContadorGallinas(int contadorGallinas) {
-        Configuracion.contadorGallinas = contadorGallinas;
-        /// persistir informacion en archivo
+    @Override
+    public String toString() {
+        return "Configuracion{" +
+                "contadorGallinas=" + contadorGallinas +
+                ", contadorGranjas=" + contadorGranjas +
+                ", contadorHuevos=" + contadorHuevos +
+                '}';
     }
 
-    public static void setContadorGranjas(int contadorGranjas) {
-        Configuracion.contadorGranjas = contadorGranjas;
-        /// persistir informacion en archivo
-
+    public static Configuracion getInstance() {
+        if (instancia == null) {
+            instancia = new Configuracion();
+        }
+        return instancia;
     }
 
-    public static void setContadorHuevos(int contadorHuevos) {
-        Configuracion.contadorHuevos = contadorHuevos;
-        /// persistir informacion en archivo
-
+    public static Configuracion leerArchivo() {
+        if (Configuracion.instancia == null) {
+            Configuracion.instancia = serializar.deserializar("configuracion");
+        }
+        return Configuracion.instancia;
     }
+
+    public int getContadorGallinas() {
+        return this.contadorGallinas;
+    }
+
+    public int getContadorGranjas() {
+        return this.contadorGranjas;
+    }
+
+    public int getContadorHuevos() {
+        return this.contadorHuevos;
+    }
+
+    public int getContadorUsuarios() {
+        return contadorUsuarios;
+    }
+
+    public void setContadorGallinas(int contadorGallinas) {
+        this.contadorGallinas = contadorGallinas;
+        Configuracion.guardarEnArchivo();
+    }
+
+    public void setContadorGranjas(int contadorGranjas) {
+        this.contadorGranjas = contadorGranjas;
+        Configuracion.guardarEnArchivo();
+    }
+
+    public void setContadorHuevos(int contadorHuevos) {
+        this.contadorHuevos = contadorHuevos;
+        Configuracion.guardarEnArchivo();
+    }
+
+    public void setContadorUsuarios(int contadorUsuarios) {
+        this.contadorUsuarios = contadorUsuarios;
+        Configuracion.guardarEnArchivo();
+    }
+
+    public static void guardarEnArchivo() {
+        serializar.serializar(Configuracion.getInstance(), "configuracion");
+    }
+
 }

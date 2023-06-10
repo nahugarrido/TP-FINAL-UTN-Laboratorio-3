@@ -2,6 +2,7 @@ package modelos;
 
 import enums.Estado;
 import enums.Raza;
+import utiles.GeneradorID;
 
 import java.time.LocalDate;
 
@@ -13,7 +14,7 @@ public class Polluelo {
     private Estado estado;
 
     public Polluelo(String nombre, LocalDate fechaNacimiento, Raza raza, Estado estado) {
-        this.id = 0; // aca se deberia utilizar el generador de id
+        this.id = GeneradorID.generarIdGallina();
         Nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;
         this.raza = raza;

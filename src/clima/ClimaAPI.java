@@ -1,4 +1,7 @@
-package otros;
+package clima;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -6,7 +9,25 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class ClimaAPI {
-    public static String getInfo(String fecha) {
+    private static DatosClima datosClima;
+
+    static {
+        datosClima = new DatosClima();
+    }
+    public static DatosClima obtenerDatosClima() {
+        return datosClima;
+    }
+
+    public static void actualizarDatosClima(String fecha) {
+        try {
+            JSONObject json_datos = new JSONObject(ClimaAPI.getInfo(fecha));
+            datosClima.fromJSON(json_datos);
+        } catch (JSONException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private static String getInfo(String fecha) {
         System.out.println("Fecha dentro de API: " + fecha);
 
         String apiURL = "https://archive-api.open-meteo.com/v1/archive?latitude=-38.00&longitude=-57.56" + "&start_date=" + fecha + "&end_date=" + fecha + "&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation,rain,weathercode&daily=weathercode,apparent_temperature_max,apparent_temperature_min,apparent_temperature_mean&timezone=America%2FSao_Paulo";

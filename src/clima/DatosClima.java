@@ -1,6 +1,5 @@
-package modelos;
+package clima;
 
-import enums.CodigosClima;
 import interfaces.IToJSON;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,7 +14,7 @@ public class DatosClima implements IToJSON {
     private double temperaturaMaxima;
     private double temperaturaMinima;
 
-    DatosClima() {
+    public DatosClima() {
 
     }
 
@@ -39,7 +38,6 @@ public class DatosClima implements IToJSON {
 
     @Override
     public void fromJSON(JSONObject jsonObject) throws JSONException {
-        System.out.println("SEBA: " +jsonObject);
         JSONObject json_hourly = jsonObject.getJSONObject("hourly");
         JSONArray json_temperature = json_hourly.getJSONArray("temperature_2m");
         JSONArray json_relative_humidity = json_hourly.getJSONArray("relativehumidity_2m");
