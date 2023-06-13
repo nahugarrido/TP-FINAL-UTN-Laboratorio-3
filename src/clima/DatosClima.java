@@ -5,6 +5,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Clase que contiene informacion del clima
+ */
 public class DatosClima implements IToJSON {
     private String ciudad;
     private int WMOCodigo;
@@ -29,11 +32,6 @@ public class DatosClima implements IToJSON {
                 ", temperaturaMaxima=" + temperaturaMaxima +
                 ", temperaturaMinima=" + temperaturaMinima +
                 '}';
-    }
-
-    @Override
-    public JSONObject toJOSN() throws JSONException {
-        return null;
     }
 
     @Override

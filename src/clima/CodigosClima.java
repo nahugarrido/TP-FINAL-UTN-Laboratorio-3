@@ -1,5 +1,8 @@
 package clima;
 
+/**
+ * Codigos de clima de Open Meteo API
+ */
 public enum CodigosClima {
     CIELO_LIMPIO(0, "Cielo Limpio"),
     PRINCIPALMENTE_DESPEJADO(1, "Principalmente Despejado"),

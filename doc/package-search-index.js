@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"clima"},{"l":"enums"},{"l":"excepciones"},{"l":"interfaces"},{"l":"menus"},{"l":"modelos"},{"l":"otros"},{"l":"usuarios"},{"l":"utiles"}];updateSearchResults();

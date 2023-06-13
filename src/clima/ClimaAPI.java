@@ -8,16 +8,28 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
+/**
+ * Clase encargada de gestionar toda la informacion relacionada con el clima
+ */
 public class ClimaAPI {
     private static DatosClima datosClima;
 
     static {
         datosClima = new DatosClima();
     }
+
+    /**
+     * Retorna instancia de DatosClima
+     * @return
+     */
     public static DatosClima obtenerDatosClima() {
         return datosClima;
     }
 
+    /**
+     * Actualiza el atributo datosClima de la clase con la informacion nueva de la API
+     * @param fecha (yyyy-mm-dd)
+     */
     public static void actualizarDatosClima(String fecha) {
         try {
             JSONObject json_datos = new JSONObject(ClimaAPI.getInfo(fecha));
@@ -27,6 +39,11 @@ public class ClimaAPI {
         }
     }
 
+    /**
+     * Realiza peticion a la API de Clima "Open Meteo"
+     * @param fecha (yyyy-mm-dd)
+     * @return JSON en formato String
+     */
     private static String getInfo(String fecha) {
         System.out.println("Fecha dentro de API: " + fecha);
 

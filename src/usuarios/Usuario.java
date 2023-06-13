@@ -1,7 +1,5 @@
 package usuarios;
-
 import utiles.GeneradorID;
-
 import java.io.Serializable;
 
 public abstract class Usuario implements Comparable<Usuario>, Serializable {
