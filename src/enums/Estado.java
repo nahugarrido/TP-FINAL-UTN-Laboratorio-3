@@ -4,5 +4,5 @@ package enums;
 /* La idea de los estados es que los utilicemos en los ratios para alterar la probabilidad de morir o de enfermarse y cosas asi*/
 
 public enum Estado {
-    HAMBRIENTO, ENFERMO, FELIZ, SUFRIENDO_CALOR, TRISTE, IRRITADO, MOLESTO, MUY_HAMBRIENTO;
+    SUFRIENDO_FRIO, SUFRIENDO_CALOR;
 }

@@ -1,11 +1,12 @@
 package otros;
 
-import utiles.Serializar;
-
 import java.io.Serializable;
 
 /// Esta clase implementa el patron Singleton
 
+/**
+ * Clase creada para poder persistir informacion de ids
+ */
 public class Configuracion implements Serializable {
     private static Serializar serializar = new Serializar();
     private static Configuracion instancia = null;
@@ -19,7 +20,7 @@ public class Configuracion implements Serializable {
 
     @Override
     public String toString() {
-        return "Configuracion{" +
+        return "otros.Configuracion{" +
                 "contadorGallinas=" + contadorGallinas +
                 ", contadorGranjas=" + contadorGranjas +
                 ", contadorHuevos=" + contadorHuevos +

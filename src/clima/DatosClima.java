@@ -1,6 +1,6 @@
 package clima;
 
-import interfaces.IToJSON;
+import interfaces.I_ToJson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,7 +8,7 @@ import org.json.JSONObject;
 /**
  * Clase que contiene informacion del clima
  */
-public class DatosClima implements IToJSON {
+public class DatosClima implements I_ToJson {
     private String ciudad;
     private int WMOCodigo;
     private String CodigoTexto;

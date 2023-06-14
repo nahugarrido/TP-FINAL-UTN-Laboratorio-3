@@ -2,9 +2,8 @@ unnamed package
 clima
 enums
 excepciones
+genericas
 interfaces
-menus
-modelos
+modelos.granja
+modelos.usuarios
 otros
-usuarios
-utiles
