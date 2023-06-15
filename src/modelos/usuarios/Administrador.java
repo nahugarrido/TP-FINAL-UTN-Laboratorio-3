@@ -14,11 +14,15 @@ public class Administrador extends Usuario implements Serializable {
         int opcion = 100;
         do {
             System.out.println("MENU ADMIN---------------------------");
-            System.out.println("1) Opcion 1");
-            System.out.println("2) Opcion 2");
-            System.out.println("3) Opcion 3");
-            System.out.println("4) Opcion 4");
-            System.out.println("5) Salir");
+            System.out.println("1) Ver datos clima");
+            System.out.println("2) Ver estado gallinas");
+            System.out.println("3) Ver estado financiero");
+            System.out.println("4) Comprar gallinas");
+            System.out.println("5) Comprar alimento");
+            System.out.println("6) Ver historial lotes");
+            System.out.println("7) Vender lotes disponibles");
+            System.out.println("8) Crear usuario nuevo");
+            System.out.println("9) Salir");
             System.out.println("----------------------------------------");
             System.out.print("Navegar: ");
             opcion = Integer.parseInt(scan.nextLine());

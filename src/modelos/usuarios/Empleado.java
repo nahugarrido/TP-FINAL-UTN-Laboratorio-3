@@ -14,9 +14,12 @@ public class Empleado extends Usuario implements Serializable {
         int opcion = 100;
         do {
             System.out.println("MENU EMPLEADO---------------------------");
-            System.out.println("1) Opcion 1");
-            System.out.println("2) Opcion 2");
-            System.out.println("3) Salir");
+            System.out.println("1) Alimentar gallinas");
+            System.out.println("2) Ver estado gallinas ***Seba");
+            System.out.println("3) Recoger huevos");
+            System.out.println("4) Revisar vida util gallinas *** Seba" );
+            System.out.println("5) Avanzar un dia ***seba");
+            System.out.println("6) Salir");
             System.out.println("----------------------------------------");
             System.out.print("Navegar: ");
             opcion = Integer.parseInt(scan.nextLine());

@@ -1,5 +1,8 @@
 import excepciones.UsuarioNoValidoException;
 import excepciones.UsuarioYaExistenteException;
+import modelos.granja.Granja;
+import modelos.usuarios.Administrador;
+import modelos.usuarios.Empleado;
 import modelos.usuarios.Usuario;
 import otros.Configuracion;
 
@@ -13,6 +16,8 @@ public class Navegacion {
     private final ControladoraUsuarios controladoraUsuarios;
     private final ControladoraGranjas controladoraGranjas;
     private Usuario usuario = null;
+
+    private Granja granja = null;
 
     public Navegacion() {
         this.controladoraUsuarios = new ControladoraUsuarios();
@@ -51,6 +56,26 @@ public class Navegacion {
                         this.setUsuario(controladoraUsuarios.ingresarDatos());
                         int opcionSeleccionada = usuario.mostrarMenu();
                         /// switch con opciones segun tipo de usuario
+                        if(this.getUsuario() instanceof Administrador) {
+                            switch (opcionSeleccionada) {
+                                case 1:
+                                    break;
+                                case 2:
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        if(this.getUsuario() instanceof Empleado) {
+                            switch (opcionSeleccionada) {
+                                case 1:
+                                    break;
+                                case 2:
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
                     } catch (UsuarioNoValidoException e) {
                         System.out.println(e.getMessage());
                     }
