@@ -17,10 +17,10 @@ import java.util.Scanner;
  */
 public class ControladoraUsuarios {
 
-    private ListaUsuarios<Usuario> listaUsuarios;
+    private ListaUsuarios listaUsuarios;
 
     public ControladoraUsuarios() {
-        listaUsuarios = new ListaUsuarios<>();
+        listaUsuarios = new ListaUsuarios();
     }
 
     /**
@@ -38,13 +38,13 @@ public class ControladoraUsuarios {
      */
     private GenericaList<Usuario> leerArchivoUsuarios() {
         Serializar serializar = new Serializar();
-        ListaUsuarios<Usuario> listaUsuarios = null;
+        ListaUsuarios listaUsuarios = null;
         File archivo = new File("usuarios");
         if (archivo.exists()) {
             Object aux = serializar.deserializar("usuarios");
-            listaUsuarios = (ListaUsuarios<Usuario>) aux;
+            listaUsuarios = (ListaUsuarios) aux;
         } else {
-            listaUsuarios = new ListaUsuarios<>();
+            listaUsuarios = new ListaUsuarios();
         }
 
         this.setListaUsuarios(listaUsuarios);
@@ -155,7 +155,7 @@ public class ControladoraUsuarios {
         return listaUsuarios.listarElementos();
     }
 
-    private void setListaUsuarios(ListaUsuarios<Usuario> listaUsuarios) {
+    private void setListaUsuarios(ListaUsuarios listaUsuarios) {
         this.listaUsuarios = listaUsuarios;
     }
 }

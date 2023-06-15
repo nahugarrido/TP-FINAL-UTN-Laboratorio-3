@@ -2,12 +2,11 @@ package genericas;
 
 import excepciones.UsuarioNoValidoException;
 import excepciones.UsuarioYaExistenteException;
-import interfaces.Entidad;
 import modelos.usuarios.Usuario;
 
 import java.io.Serializable;
 
-public class ListaUsuarios<T extends Usuario> extends GenericaList<T> implements Serializable {
+public class ListaUsuarios extends GenericaList<Usuario> implements Serializable {
 
 
     /// hay que ver si no hay que crear otra clase generica o si se puede dejar este metodo aca
