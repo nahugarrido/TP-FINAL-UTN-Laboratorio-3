@@ -1,5 +1,5 @@
 package enums;
 
-public enum Estado {
+public enum EnumEstado {
     ESTRESADA, FELIZ;
 }

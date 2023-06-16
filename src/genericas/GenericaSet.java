@@ -13,6 +13,10 @@ public class GenericaSet<T> implements Generica<T> {
         this.setGenerico = new HashSet<>();
     }
 
+    public boolean buscarElemento(T elemento) {
+        return setGenerico.contains(elemento);
+    }
+
     @Override
     public <T1> void agregarElemento(T1 elemento) {
         setGenerico.add((T) elemento);
@@ -32,7 +36,7 @@ public class GenericaSet<T> implements Generica<T> {
     public String listarElementos() {
         StringBuilder texto = new StringBuilder();
         Iterator<T> iterator = setGenerico.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             T aux = iterator.next();
             texto.append(aux.toString()).append("\n");
         }
