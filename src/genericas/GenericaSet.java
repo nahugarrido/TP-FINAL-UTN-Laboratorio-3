@@ -38,7 +38,7 @@ public class GenericaSet<T> implements Generica<T> {
         Iterator<T> iterator = setGenerico.iterator();
         while (iterator.hasNext()) {
             T aux = iterator.next();
-            texto.append(aux.toString()).append("\n");
+            texto.append(aux.toString()).append("");
         }
         return texto.toString();
     }

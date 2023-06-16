@@ -25,6 +25,7 @@ public class Gallina implements Entidad {
         this.contadorHistoricoHuevos = 0;
         this.colorHuevo = colorHuevo;
         this.estado = new GenericaSet<>();
+        estado.agregarElemento(EnumEstado.FELIZ);
     }
 
     @Override
@@ -56,8 +57,8 @@ public class Gallina implements Entidad {
 
 
         /// Se aumenta o reinicia la cantidad de dias sin comer
-        /// si la gallina comio menos de 15 gramos consideramos que no ha comido
-        if(this.getCantidadComida() < 15) {
+        /// si la gallina comio menos de 10 gramos consideramos que no ha comido
+        if(this.getCantidadComida() < 10) {
             this.setDiasSinComer(this.getDiasSinComer() + 1);
         } else {
             this.setDiasSinComer(0);
@@ -87,6 +88,9 @@ public class Gallina implements Entidad {
         if(this.getCantidadHuevos() < 0) {
             this.setCantidadHuevos(0);
         }
+
+        /// se actualiza contador historico de huevos
+        this.setContadorHistoricoHuevos(this.getContadorHistoricoHuevos() + this.getCantidadHuevos());
     }
 
     public void alterarEstado() {
