@@ -15,6 +15,8 @@ import java.util.Scanner;
 public class Navegacion {
     private final ControladoraUsuarios controladoraUsuarios;
     private final ControladoraGranjas controladoraGranjas;
+    private final ControladoraLotes controladoraLotes;
+
     private Usuario usuario = null;
 
     private Granja granja = null;
@@ -22,8 +24,7 @@ public class Navegacion {
     public Navegacion() {
         this.controladoraUsuarios = new ControladoraUsuarios();
         this.controladoraGranjas = new ControladoraGranjas();
-
-
+        this.controladoraLotes = new ControladoraLotes();
     }
 
     /**
@@ -39,7 +40,8 @@ public class Navegacion {
             System.out.println("2) Ingresar a granja");
             System.out.println("3) Ver granjas");
             System.out.println("4) Ver usuarios");
-            System.out.println("5) Salir");
+            System.out.println("5) Ver historial lotes");
+            System.out.println("6) Salir");
             System.out.println("----------------------------------------");
             System.out.print("Navegar: ");
             opcion = scan.nextLine();
@@ -97,6 +99,9 @@ public class Navegacion {
                     System.out.println(controladoraUsuarios.mostrarUsuarios());
                     break;
                 case "5":
+                    System.out.println(controladoraLotes.mostrarLotes());
+                    break;
+                case "6":
                     continuar = false;
                     break;
                 default:

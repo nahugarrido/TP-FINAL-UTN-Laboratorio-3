@@ -20,6 +20,10 @@ public class GenericaMap<K,T> {
         mapGenerico.remove(key);
     }
 
+    public T obtenerValor(K key) {
+        return mapGenerico.get(key);
+    }
+
     public int contarElementos() {
         return mapGenerico.size();
     }

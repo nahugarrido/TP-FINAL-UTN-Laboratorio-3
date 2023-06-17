@@ -12,9 +12,10 @@ public class Configuracion implements Serializable {
     private static Configuracion instancia = null;
     private int contadorGallinas = 0;
     private int contadorGranjas = 0;
-    private int contadorHuevos = 0;
     private int contadorUsuarios = 0;
+    private int contadorLotes = 0;
 
+    /*private int contadorHuevos = 0;*/
     private Configuracion() {
     }
 
@@ -23,7 +24,6 @@ public class Configuracion implements Serializable {
         return "otros.Configuracion{" +
                 "contadorGallinas=" + contadorGallinas +
                 ", contadorGranjas=" + contadorGranjas +
-                ", contadorHuevos=" + contadorHuevos +
                 '}';
     }
 
@@ -49,10 +49,6 @@ public class Configuracion implements Serializable {
         return this.contadorGranjas;
     }
 
-    public int getContadorHuevos() {
-        return this.contadorHuevos;
-    }
-
     public int getContadorUsuarios() {
         return contadorUsuarios;
     }
@@ -67,15 +63,29 @@ public class Configuracion implements Serializable {
         Configuracion.guardarEnArchivo();
     }
 
-    public void setContadorHuevos(int contadorHuevos) {
-        this.contadorHuevos = contadorHuevos;
-        Configuracion.guardarEnArchivo();
-    }
-
     public void setContadorUsuarios(int contadorUsuarios) {
         this.contadorUsuarios = contadorUsuarios;
         Configuracion.guardarEnArchivo();
     }
+
+    public int getContadorLotes() {
+        return contadorLotes;
+    }
+
+    public void setContadorLotes(int contadorLotes) {
+        this.contadorLotes = contadorLotes;
+        Configuracion.guardarEnArchivo();
+    }
+
+    /*    public void setContadorHuevos(int contadorHuevos) {
+        this.contadorHuevos = contadorHuevos;
+        Configuracion.guardarEnArchivo();
+    }*/
+
+    /*    public int getContadorHuevos() {
+        return this.contadorHuevos;
+    }*/
+
 
     public static void guardarEnArchivo() {
         serializar.serializar(Configuracion.getInstance(), "configuracion");

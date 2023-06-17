@@ -4,26 +4,29 @@ import clima.ClimaAPI;
 import clima.DatosClima;
 import enums.EnumColor;
 import enums.EnumEstado;
+import enums.EnumRazas;
 import genericas.GenericaSet;
 import interfaces.Entidad;
 import otros.GeneradorID;
 
 public class Gallina implements Entidad {
-    private int id;
+    private final int id;
     private int diasSinComer;
     private int contadorHistoricoHuevos;
     private int cantidadHuevos;
     private int cantidadComida;
+    private EnumRazas raza;
     private EnumColor colorHuevo;
     private GenericaSet<EnumEstado> estado;
 
-    public Gallina(EnumColor colorHuevo) {
+    public Gallina(EnumRazas raza) {
         this.id = GeneradorID.generarIdGallina();
         this.diasSinComer = 0;
         this.cantidadHuevos = 0;
         this.cantidadComida = 0;
         this.contadorHistoricoHuevos = 0;
-        this.colorHuevo = colorHuevo;
+        this.raza = raza;
+        this.colorHuevo = raza.getColorHuevo();
         this.estado = new GenericaSet<>();
         estado.agregarElemento(EnumEstado.FELIZ);
     }
@@ -96,7 +99,7 @@ public class Gallina implements Entidad {
     public void alterarEstado() {
         DatosClima datos = ClimaAPI.obtenerDatosClima();
         /// Si la temperatura no le gusta a la gallina o no ha comido o el dia no le gusta, la gallina se estresa.
-        if(datos.getTemperaturaMaxima() > 28 || datos.getTemperaturaMinima() < 5 || this.getDiasSinComer() > 0 || datos.getWMOCodigo() > 60) {
+        if(datos.getTemperaturaMaxima() > raza.getTemperaturaMaximaContenta() || datos.getTemperaturaMinima() < raza.getGetTemperaturaMinimaContenta() || this.getDiasSinComer() > 0 || datos.getWMOCodigo() > 60) {
             estado.agregarElemento(EnumEstado.ESTRESADA);
             estado.eliminarElemento(EnumEstado.FELIZ);
         } else {
@@ -162,6 +165,5 @@ public class Gallina implements Entidad {
     public void setColorHuevo(EnumColor colorHuevo) {
         this.colorHuevo = colorHuevo;
     }
-
-
+    
 }
