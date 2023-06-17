@@ -4,7 +4,7 @@ import otros.GeneradorID;
 import java.io.Serializable;
 
 public abstract class Usuario implements Comparable<Usuario>, Serializable, Entidad {
-    private int id;
+    private final int id;
     private int idGranja;
     private String usuario;
     private String clave;

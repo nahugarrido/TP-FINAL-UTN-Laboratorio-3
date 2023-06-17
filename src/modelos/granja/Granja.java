@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Scanner;
 
 public class Granja implements Serializable, Entidad {
-    private int id;
+    private final int id;
     private String nombre;
     private String fecha;
     private HashSet<Integer> usuariosValidos;

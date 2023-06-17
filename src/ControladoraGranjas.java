@@ -4,7 +4,6 @@ import modelos.granja.Granja;
 import otros.Serializar;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -29,11 +28,10 @@ public class ControladoraGranjas {
 
     /**
      * Lee la informacion desde el archivo
-     * @return retorna la informacion en formato GenericaList<Granja>
      */
-    private GenericaList<Granja> leerArchivoGranjas() {
+    private void leerArchivoGranjas() {
         Serializar serializar = new Serializar();
-        GenericaList<Granja> listaGranjas = null;
+        GenericaList<Granja> listaGranjas;
         File archivo = new File("granjas");
         if (archivo.exists()) {
             Object aux = serializar.deserializar("granjas");
@@ -43,7 +41,6 @@ public class ControladoraGranjas {
         }
 
         this.setListaGranjas(listaGranjas);
-        return listaGranjas;
     }
 
 

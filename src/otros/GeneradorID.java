@@ -27,16 +27,6 @@ public class GeneradorID {
     }
 
     /**
-     * Generar id de huevo
-     * @return id nuevo
-     */
-    public static int generarIdHuevo() {
-        int nuevoId = configuracion.getContadorHuevos() + 1;
-        configuracion.setContadorHuevos(nuevoId);
-        return nuevoId;
-    }
-
-    /**
      * Generar id de usuario
      * @return id nuevo
      */
@@ -46,6 +36,20 @@ public class GeneradorID {
         return nuevoId;
     }
 
+    /**
+     * Generar id de lote
+     * @return id nuevo
+     */
+    public static int generarIdLote() {
+        int nuevoId = configuracion.getContadorLotes() + 1;
+        configuracion.setContadorUsuarios(nuevoId);
+        return nuevoId;
+    }
 
 
+    /*    public static int generarIdHuevo() {
+        int nuevoId = configuracion.getContadorHuevos() + 1;
+        configuracion.setContadorHuevos(nuevoId);
+        return nuevoId;
+    }*/
 }
