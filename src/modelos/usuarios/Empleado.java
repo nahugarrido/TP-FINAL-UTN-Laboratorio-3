@@ -14,16 +14,16 @@ public class Empleado extends Usuario implements Serializable {
         int opcion = 100;
         do {
             System.out.println("MENU EMPLEADO---------------------------");
-            System.out.println("1) Alimentar gallinas");
-            System.out.println("2) Ver estado gallinas ***Seba");
-            System.out.println("3) Recoger huevos");
-            System.out.println("4) Revisar vida util gallinas *** Seba" );
+            System.out.println("1) Alimentar gallinas");// la gallina come en gramos, la comida disponible esta en kilos.
+            System.out.println("2) Ver estado gallinas ***Seba");// mostrar
+            System.out.println("3) Recoger huevos"); //resetear la cant huevos de la gallina y el alimento. diferenciar y contabilizar los tipos de huevos.
+            System.out.println("4) Revisar vida util gallinas *** Seba" ); // retornar cuantas gallinas han alcanzado su vida util y cuantas estan proximas a alzazarlo.
             System.out.println("5) Avanzar un dia ***seba");
             System.out.println("6) Salir");
             System.out.println("----------------------------------------");
             System.out.print("Navegar: ");
             opcion = Integer.parseInt(scan.nextLine());
-        } while (opcion > 3);
+        } while (opcion > 6);
 
         return opcion;
     }

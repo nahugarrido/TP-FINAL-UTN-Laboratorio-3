@@ -66,13 +66,23 @@ public class Navegacion {
                                     break;
                             }
                         }
-                        if(this.getUsuario() instanceof Empleado) {
+                        if (this.getUsuario() instanceof Empleado) {
                             switch (opcionSeleccionada) {
                                 case 1:
+                                    granja.alimentarGallinas();
                                     break;
                                 case 2:
+                                    System.out.println(granja.obtenerEstadoGallinas());
+                                    System.out.println(granja.calcularPromediosEstados());
+                                    break;
+                                case 3:
+                                    System.out.println(granja.recogerHuevos());
+                                    break;
+                                case 4:
+                                    System.out.println(granja.revisarVidaUtilGallinas());
                                     break;
                                 default:
+                                    System.out.println("Opción no válida");
                                     break;
                             }
                         }

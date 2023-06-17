@@ -64,7 +64,7 @@ public class Gallina implements Entidad {
             this.setDiasSinComer(0);
         }
 
-        /// se retorna la cantidad que comida por la gallina
+        /// se retorna la cantidad comida por la gallina
         return comida;
     }
 
@@ -109,7 +109,7 @@ public class Gallina implements Entidad {
         }
     }
 
-    private void resetearAtributos() {
+    public void resetearAtributos() {
         this.setCantidadComida(0);
         this.setCantidadHuevos(0);
     }
@@ -129,6 +129,10 @@ public class Gallina implements Entidad {
 
     public int getCantidadComida() {
         return cantidadComida;
+    }
+
+    public GenericaSet<EnumEstado> getEstado() {
+        return estado;
     }
 
     public EnumColor getColorHuevo() {
@@ -158,4 +162,6 @@ public class Gallina implements Entidad {
     public void setColorHuevo(EnumColor colorHuevo) {
         this.colorHuevo = colorHuevo;
     }
+
+
 }
