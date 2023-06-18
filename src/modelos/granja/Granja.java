@@ -88,6 +88,10 @@ public class Granja implements Serializable, Entidad {
         return fecha;
     }
 
+    public HashSet<Integer> getUsuariosValidos() {
+        return usuariosValidos;
+    }
+
     public void setFecha(String fecha) {
         this.fecha = fecha;
     }
