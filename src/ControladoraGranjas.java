@@ -87,7 +87,7 @@ public class ControladoraGranjas {
         Granja nuevaGranja = new Granja(nombre, fecha, idUsuario);
         controladoraUsuarios.actualizarIdGranja(idUsuario, nuevaGranja.getId());
 
-        this.leerArchivoGranjas();
+        this.leerArchivoGranjas(); /// esta linea creo que puede removerse
         listaGranjas.agregarElemento(nuevaGranja);
 
         this.guardarArchivoGranjas();

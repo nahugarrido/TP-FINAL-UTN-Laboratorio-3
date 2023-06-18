@@ -1,9 +1,12 @@
 import enums.EnumColor;
 import clima.ClimaAPI;
+import excepciones.ComidaNoSuficienteException;
+import excepciones.LoteVacioExcepcion;
 import excepciones.UsuarioNoValidoException;
 import excepciones.UsuarioYaExistenteException;
 import genericas.GenericaMap;
 import modelos.granja.Granja;
+import modelos.granja.Lote;
 import modelos.usuarios.Administrador;
 import modelos.usuarios.Empleado;
 import modelos.usuarios.Usuario;
@@ -102,28 +105,38 @@ public class Navegacion {
                                     case 1:
                                         System.out.println("Ingrese cantidad de comida en kilogramos: (25.5)");
                                         double comida = Double.parseDouble(scan.nextLine());
-                                        granja.alimentarGallinas(comida);
+                                        try {
+                                            granja.alimentarGallinas(comida);
+                                        } catch (ComidaNoSuficienteException e) {
+                                            System.out.println(e.getMessage());
+                                        }
                                         break;
                                     case 2:
+                                        System.out.println(granja.matarGallinasVidaUtil());
+                                        break;
+                                    case 3:
                                         System.out.println(granja.obtenerEstadoGallinas());
                                         System.out.println(granja.calcularPromediosEstados());
                                         break;
-                                    case 3:
-                                        GenericaMap<EnumColor, Integer> huevosRecogidos = granja.recogerHuevos();
-                                        /// logica de generar lote
-                                        System.out.println("Huevos recogidos:\n" +
-                                                "Medio Claro: " + huevosRecogidos.obtenerValor(EnumColor.MEDIO_CLARO) + "\n" +
-                                                "Crema: " + huevosRecogidos.obtenerValor(EnumColor.CREMA) + "\n" +
-                                                "Blanco: " + huevosRecogidos.obtenerValor(EnumColor.BLANCO));
-                                        break;
                                     case 4:
-                                        System.out.println(granja.revisarVidaUtilGallinas());
+                                        Lote nuevoLote = null;
+                                        try {
+                                            nuevoLote = granja.recogerHuevos();
+                                            controladoraLotes.agregarLoteNuevo(nuevoLote);
+                                            System.out.println("Has generado un nuevo lote de huevos");
+                                            System.out.println(nuevoLote.toString());
+                                        } catch (LoteVacioExcepcion e) {
+                                            System.out.println(e.getMessage());
+                                        }
                                         break;
                                     case 5:
-                                        granja.avanzarUnDia();
-
+                                        System.out.println(granja.revisarVidaUtilGallinas());
                                         break;
                                     case 6:
+                                        granja.madreNaturaleza();
+                                        granja.avanzarUnDia();
+                                        break;
+                                    case 7:
                                         continuarUsuario = false;
                                         break;
                                     default:

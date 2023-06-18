@@ -35,7 +35,8 @@ public class ClimaAPI {
             JSONObject json_datos = new JSONObject(ClimaAPI.getInfo(fecha));
             datosClima.fromJSON(json_datos);
         } catch (JSONException e) {
-            System.out.println(e.getMessage());
+            /// llamada recursiva a funcion
+            actualizarDatosClima(fecha);
         }
     }
 

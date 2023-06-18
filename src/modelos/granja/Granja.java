@@ -2,6 +2,8 @@ package modelos.granja;
 
 import clima.ClimaAPI;
 import enums.EnumColor;
+import excepciones.ComidaNoSuficienteException;
+import excepciones.LoteVacioExcepcion;
 import genericas.GenericaMap;
 import genericas.ListaGallinas;
 import interfaces.Entidad;
@@ -128,9 +130,9 @@ public class Granja implements Serializable, Entidad {
         usuariosValidos.add(idUsuarioNuevo);
     }
 
-    public void alimentarGallinas(double comidaKg) {
+    public void alimentarGallinas(double comidaKg) throws ComidaNoSuficienteException {
         if (comidaKg > this.getComidaDisponible()) {
-            //throw new Exception()...
+            throw new ComidaNoSuficienteException("",this.getComidaDisponible(), comidaKg);
         } else {
             /// descontamos el valor a darle a las gallinas
             this.setComidaDisponible(this.getComidaDisponible() - comidaKg);
@@ -154,9 +156,13 @@ public class Granja implements Serializable, Entidad {
     }
 
 
-    public GenericaMap<EnumColor, Integer> recogerHuevos() {
+    public Lote recogerHuevos() throws LoteVacioExcepcion {
         GenericaMap<EnumColor, Integer> huevosRecogidos = listaGallinas.recogerHuevos();
-        return huevosRecogidos;
+        if(huevosRecogidos.obtenerValor(EnumColor.MEDIO_CLARO) == 0 && huevosRecogidos.obtenerValor(EnumColor.BLANCO) == 0 && huevosRecogidos.obtenerValor(EnumColor.CREMA) == 0) {
+            throw new LoteVacioExcepcion("No hay huevos que recoger");
+        }
+        Lote nuevoLote = new Lote(this.getId(),this.getFecha(), huevosRecogidos);
+        return nuevoLote;
     }
 
 
@@ -168,6 +174,40 @@ public class Granja implements Serializable, Entidad {
 
         return "Promedio de gallinas que alcanzaron su vida útil: " + promedioAlcanzaronVidaUtil + "%\n" +
                 "Promedio de gallinas próximas a alcanzar su vida útil: " + promedioProximasVidaUtil + "%";
+    }
+
+    public String matarGallinasVidaUtil() {
+        String texto = "";
+        double random = Math.random();
+
+        if(random > 0) {
+            texto = "Has ido a matar a Cleta, pero has visto sus brillantes ojos y no has podido hacerlo.";
+        } else if(random > 0.20) {
+            texto = "Has tratado de matar a Turuleca, pero sus hijos observaban y te has arrepentido.";
+        } else if(random > 0.40) {
+            texto = "Has tratado de matar a Julia, pero es programadora y simio no mata simio.";
+        } else if(random > 0.60) {
+            texto = "Te has tropezado agarrando el cuchillo, decides que hoy no mataras a Cleta.";
+        }
+
+        int contador = listaGallinas.matarGallinasPorVidaUtil();
+        this.setGallinasMuertas(this.getGallinasMuertas() + contador);
+
+        if(contador > 0) {
+            texto = "Hoy a dios has desafiado y " + contador + " vidas pollunas te has quedado.";
+        }
+
+        return texto;
+    }
+
+    public String madreNaturaleza() {
+        String texto = "Hoy ha sido un dia pacifico y calmado en " + this.getNombre() + ".";
+        int contador = listaGallinas.matarGallinasPorHambre();
+        this.setGallinasMuertas(this.getGallinasMuertas() + contador);
+        if(contador > 0) {
+            texto = "Hoy la madre naturaleza ha obrado y tu sin " + contador + " gallinas te has quedado.";
+        }
+        return texto;
     }
 
 

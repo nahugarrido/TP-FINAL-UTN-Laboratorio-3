@@ -77,8 +77,8 @@ public class Gallina implements Entidad {
             this.setCantidadComida(this.getCantidadComida()+20);
         }
 
-        /// si la gallina comio mas de 60 gramos pone un huevo
-        if (this.getCantidadComida() > 60) {
+        /// si la gallina comio mas de 60 gramos pone un huevo y si esta dentro de su vida util
+        if (this.getCantidadComida() > 60 && this.getContadorHistoricoHuevos() < this.getRaza().getVidaUtil()) {
             this.setCantidadHuevos(this.getCantidadHuevos() + 1);
         }
 

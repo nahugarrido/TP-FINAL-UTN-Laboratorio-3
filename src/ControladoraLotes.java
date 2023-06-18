@@ -10,6 +10,7 @@ public class ControladoraLotes {
 
     public ControladoraLotes() {
         this.listaLotes = new ListaLotes();
+        leerArchivoLotes();
     }
 
     private void guardarArchivoLotes() {
@@ -46,10 +47,12 @@ public class ControladoraLotes {
 
     public void agregarLoteNuevo(Lote loteNuevo) {
         listaLotes.agregarElemento(loteNuevo);
+        this.guardarArchivoLotes();
     }
 
     public void actualizarLote(Lote lote) {
         listaLotes.actualizarElemento(lote);
+        this.guardarArchivoLotes();
     }
     public String mostrarLotes() {
         return listaLotes.listarElementos();

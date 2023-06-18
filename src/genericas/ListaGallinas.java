@@ -33,11 +33,11 @@ public class ListaGallinas extends GenericaList<Gallina> {
             /// la gallina pone los huevos
             gallina.ponerHuevos();
             if (gallina.getColorHuevo() == EnumColor.MEDIO_CLARO) {
-                huevos.agregarElemento(EnumColor.MEDIO_CLARO,huevos.obtenerValor(EnumColor.MEDIO_CLARO)+ gallina.getCantidadHuevos());
+                huevos.agregarElemento(EnumColor.MEDIO_CLARO, huevos.obtenerValor(EnumColor.MEDIO_CLARO) + gallina.getCantidadHuevos());
             } else if (gallina.getColorHuevo() == EnumColor.CREMA) {
-                huevos.agregarElemento(EnumColor.CREMA,huevos.obtenerValor(EnumColor.CREMA)+ gallina.getCantidadHuevos());
+                huevos.agregarElemento(EnumColor.CREMA, huevos.obtenerValor(EnumColor.CREMA) + gallina.getCantidadHuevos());
             } else if (gallina.getColorHuevo() == EnumColor.BLANCO) {
-                huevos.agregarElemento(EnumColor.BLANCO,huevos.obtenerValor(EnumColor.BLANCO)+ gallina.getCantidadHuevos());
+                huevos.agregarElemento(EnumColor.BLANCO, huevos.obtenerValor(EnumColor.BLANCO) + gallina.getCantidadHuevos());
             }
             //incrementamos el contador historico y reseteamos los atributos como cant de huevos que puso ese dia.
             gallina.setContadorHistoricoHuevos(gallina.getContadorHistoricoHuevos() + gallina.getCantidadHuevos());
@@ -57,7 +57,7 @@ public class ListaGallinas extends GenericaList<Gallina> {
             int huevosPuestos = gallina.getContadorHistoricoHuevos();
             if (huevosPuestos >= gallina.getRaza().getVidaUtil()) {
                 gallinasAlcanzaronVidaUtil++;
-            } else if (huevosPuestos > (gallina.getRaza().getVidaUtil() - (gallina.getRaza().getVidaUtil() * (2/3)))) {
+            } else if (huevosPuestos > (gallina.getRaza().getVidaUtil() - (gallina.getRaza().getVidaUtil() * (2 / 3)))) {
                 gallinasProximasVidaUtil++;
             }
         }
@@ -78,7 +78,7 @@ public class ListaGallinas extends GenericaList<Gallina> {
     }
 
     public double[] calcularPromediosEstados() {
-        double [] contadores = new double[2];
+        double[] contadores = new double[2];
         int totalGallinas = listaGenerica.size();
         int countFelices = 0;
         int countEstresadas = 0;
@@ -95,6 +95,28 @@ public class ListaGallinas extends GenericaList<Gallina> {
         contadores[1] = promedioEstresadas;
 
         return contadores;
+    }
+
+    public int matarGallinasPorVidaUtil() {
+        int contador = 0;
+        for (Gallina gallina : listaGenerica) {
+            if (gallina.getContadorHistoricoHuevos() >= gallina.getRaza().getVidaUtil()) {
+                contador++;
+                listaGenerica.remove(gallina);
+            }
+        }
+        return contador;
+    }
+
+    public int matarGallinasPorHambre() {
+        int contador = 0;
+        for (Gallina gallina : listaGenerica) {
+            if (gallina.getDiasSinComer() >= 3) {
+                contador++;
+                listaGenerica.remove(gallina);
+            }
+        }
+        return contador;
     }
 
 }
