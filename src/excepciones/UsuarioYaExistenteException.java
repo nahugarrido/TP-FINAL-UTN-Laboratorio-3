@@ -10,7 +10,7 @@ public class UsuarioYaExistenteException extends Exception {
 
     @Override
     public String getMessage() {
-        return "El usuario " + this.getUsuario() + "ya esta registrado, por favor vuelve a intentarlo con otro usuario..";
+        return "El usuario " + this.getUsuario() + " ya esta registrado, por favor vuelve a intentarlo con otro usuario..";
     }
 
     public String getUsuario() {

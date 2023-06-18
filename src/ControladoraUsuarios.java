@@ -97,7 +97,6 @@ public class ControladoraUsuarios {
      */
     public int registrarUsuarioEmpleado() throws UsuarioYaExistenteException {
         Scanner scan = new Scanner(System.in);
-
         /// obtener datos del usuario a registrar
         System.out.println("Ingrese un nombre de usuario (empleado): ");
         String usuario = scan.nextLine();

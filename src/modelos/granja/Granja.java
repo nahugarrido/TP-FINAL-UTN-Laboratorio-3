@@ -1,18 +1,14 @@
 package modelos.granja;
 
 import clima.ClimaAPI;
-import enums.EnumEstado;
 import enums.EnumColor;
-import genericas.Generica;
 import genericas.GenericaMap;
 import genericas.ListaGallinas;
 import interfaces.Entidad;
 import otros.GeneradorID;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
 
@@ -34,7 +30,7 @@ public class Granja implements Serializable, Entidad {
         usuariosValidos.add(idUsuario);
         this.comidaDisponible = 10;
         this.gallinasMuertas = 0;
-        this.saldo = 50;
+        this.saldo = 5000;
         this.listaGallinas = new ListaGallinas();
         ClimaAPI.actualizarDatosClima(this.getFecha());
     }
@@ -124,6 +120,10 @@ public class Granja implements Serializable, Entidad {
         this.saldo = saldo;
     }
 
+    public void agregarUsuarioValido(int idUsuarioNuevo) {
+        usuariosValidos.add(idUsuarioNuevo);
+    }
+
     public void alimentarGallinas(double comidaKg) {
         if (comidaKg > this.getComidaDisponible()) {
             //throw new Exception()...
@@ -140,37 +140,19 @@ public class Granja implements Serializable, Entidad {
     }
 
     public String obtenerEstadoGallinas() {
-        StringBuilder texto = new StringBuilder();
-        for (Gallina gallina : listaGallinas) {
-            texto.append("ID: ").append(gallina.getId()).append(", Estado: ").append(gallina.getEstado().listarElementos()).append("\n");
-        }
-        return texto.toString();
+        return listaGallinas.obtenerEstadoGallinas();
     }
 
     public String calcularPromediosEstados() {
-        int totalGallinas = listaGallinas.size();
-        int countFelices = 0;
-        int countEstresadas = 0;
-
-        for (Gallina gallina : listaGallinas) {
-            if (gallina.getEstado().buscarElemento(EnumEstado.FELIZ)) {
-                countFelices++;
-            } else if (gallina.getEstado().buscarElemento(EnumEstado.ESTRESADA)) {
-                countEstresadas++;
-            }
-        }
-
-        double promedioFelices = (double) countFelices / totalGallinas * 100;
-        double promedioEstresadas = (double) countEstresadas / totalGallinas * 100;
-
-        return "Promedio de gallinas felices: " + promedioFelices + "%\n" +
-                "Promedio de gallinas estresadas: " + promedioEstresadas + "%";
+        double[] estados = listaGallinas.calcularPromediosEstados();
+       return "Promedio de gallinas felices: " + estados[0] + "%\n" +
+               "Promedio de gallinas estresadas: " + estados[1] + "%";
     }
 
 
     public GenericaMap<EnumColor, Integer> recogerHuevos() {
         GenericaMap<EnumColor, Integer> huevosRecogidos = listaGallinas.recogerHuevos();
-        return
+        return huevosRecogidos;
     }
 
 

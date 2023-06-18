@@ -26,7 +26,7 @@ public class Administrador extends Usuario implements Serializable {
             System.out.println("----------------------------------------");
             System.out.print("Navegar: ");
             opcion = Integer.parseInt(scan.nextLine());
-        } while (opcion > 5);
+        } while (opcion > 9);
 
         return opcion;
     }

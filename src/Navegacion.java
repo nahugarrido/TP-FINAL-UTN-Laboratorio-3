@@ -58,10 +58,12 @@ public class Navegacion {
                 case "2":
                     try {
                         boolean continuarUsuario = true;
+                        /// Se obtiene el usuario
                         this.setUsuario(controladoraUsuarios.ingresarDatos());
+                        /// Se selecciona la granja
+                        this.setGranja(controladoraGranjas.obtenerGranja(usuario.getIdGranja()));
+
                         do {
-
-
                             int opcionSeleccionada = usuario.mostrarMenu();
                             /// switch con opciones segun tipo de usuario
                             if (this.getUsuario() instanceof Administrador) {
@@ -69,6 +71,19 @@ public class Navegacion {
                                     case 1:
                                         break;
                                     case 2:
+                                        break;
+                                    case 8:
+                                        try {
+                                            int idUsuarioNuevo = controladoraUsuarios.registrarUsuarioEmpleado();
+                                            controladoraUsuarios.actualizarIdGranja(idUsuarioNuevo, granja.getId());
+                                            granja.agregarUsuarioValido(idUsuarioNuevo);
+                                            System.out.println("Usuario creado con exito.");
+                                        } catch (UsuarioYaExistenteException e) {
+                                            System.out.println(e.getMessage());
+                                        }
+                                        break;
+                                    case 9:
+                                        continuarUsuario = false;
                                         break;
                                     default:
                                         break;
@@ -98,6 +113,7 @@ public class Navegacion {
                                         break;
                                     case 5:
                                         granja.avanzarUnDia();
+
                                         break;
                                     case 6:
                                         continuarUsuario = false;
@@ -152,5 +168,13 @@ public class Navegacion {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public Granja getGranja() {
+        return granja;
+    }
+
+    public void setGranja(Granja granja) {
+        this.granja = granja;
     }
 }
