@@ -1,8 +1,10 @@
 import enums.EnumColor;
 import clima.ClimaAPI;
+import enums.EnumRazas;
 import excepciones.UsuarioNoValidoException;
 import excepciones.UsuarioYaExistenteException;
 import genericas.GenericaMap;
+import genericas.ListaLotes;
 import modelos.granja.Granja;
 import modelos.usuarios.Administrador;
 import modelos.usuarios.Empleado;
@@ -80,6 +82,44 @@ public class Navegacion {
                                         System.out.println("Saldo actual de la empresa: " + granja.getSaldo());
                                         break;
                                     case 4:
+                                        System.out.println("¿Qué gallina deseas comprar?");
+                                        System.out.println("1. Rhode Island Red");
+                                        System.out.println("2. Sussex");
+                                        System.out.println("3. Filibar");
+
+                                        int opcionGallina = scan.nextInt();
+                                        System.out.println("Ingrese la cantidad de gallinas que desea comprar:");
+                                        int cantidad = scan.nextInt();
+
+                                        EnumRazas raza = null;
+
+                                        switch (opcionGallina) {
+                                            case 1:
+                                                raza = EnumRazas.RHODE_ISLAND_RED;
+                                                break;
+                                            case 2:
+                                                raza = EnumRazas.SUSSEX;
+                                                break;
+                                            case 3:
+                                                raza = EnumRazas.FILIBAR;
+                                                break;
+                                            default:
+                                                System.out.println("Opción inválida");
+                                                break;
+                                        }
+
+                                        if (raza != null) {
+                                            // Llamar al método comprarGallinas de la granja pasando la raza y la cantidad
+                                            System.out.println("Con el dinero disponible se compraron " + granja.comprarGallinas(raza, cantidad) + "galllinas");
+                                        }
+                                        break;
+                                    case 5:
+                                        System.out.println("Ingrese cantidad de kilos de alimento que desea comprar: ");
+                                        double cant = scan.nextDouble();
+                                        System.out.println("Con el dinero disponible se compro un total de "+ granja.comprarAlimento(cant)+ "kilos de alimento");
+                                        break;
+                                    case 6:
+                                        System.out.println(controladoraLotes.obtenerLotes(granja.getId()));
                                     case 8:
                                         try {
                                             int idUsuarioNuevo = controladoraUsuarios.registrarUsuarioEmpleado();

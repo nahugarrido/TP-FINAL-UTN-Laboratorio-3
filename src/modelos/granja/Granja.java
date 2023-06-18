@@ -2,8 +2,10 @@ package modelos.granja;
 
 import clima.ClimaAPI;
 import enums.EnumColor;
+import enums.EnumRazas;
 import genericas.GenericaMap;
 import genericas.ListaGallinas;
+import genericas.ListaLotes;
 import interfaces.Entidad;
 import otros.GeneradorID;
 import java.io.Serializable;
@@ -169,6 +171,68 @@ public class Granja implements Serializable, Entidad {
         return "Promedio de gallinas que alcanzaron su vida útil: " + promedioAlcanzaronVidaUtil + "%\n" +
                 "Promedio de gallinas próximas a alcanzar su vida útil: " + promedioProximasVidaUtil + "%";
     }
+
+
+    public int comprarGallinas(EnumRazas raza, int cantidad) {
+        double precioPorGallina = 0.0;
+
+        switch (raza) {
+            case RHODE_ISLAND_RED:
+                precioPorGallina = 10.0;
+                break;
+            case SUSSEX:
+                precioPorGallina = 12.0;
+                break;
+            case FILIBAR:
+                precioPorGallina = 8.0;
+                break;
+        }
+
+        double costoTotal = precioPorGallina * cantidad;
+
+        if (costoTotal <= this.getSaldo()){ // Verificar si el saldo es suficiente para realizar la compra
+            for (int i = 0; i < cantidad; i++) { // Realizar la compra de las gallinas y actualizar el saldo
+                Gallina gallina = new Gallina(raza);
+                listaGallinas.agregarElemento(gallina);
+            }
+            this.setSaldo(this.getSaldo() -costoTotal);
+        }
+
+        else {
+            int cantidadAsequible = (int) (this.getSaldo() / precioPorGallina);
+            // Realizar la compra de las gallinas asequibles y actualizar el saldo
+            for (int i = 0; i < cantidadAsequible; i++) {
+                Gallina gallina = new Gallina(raza);
+                listaGallinas.agregarElemento(gallina);
+            }
+            this.setSaldo(this.getSaldo()- (cantidadAsequible* precioPorGallina));
+        }
+
+        return cantidad;
+    }
+
+
+    public double comprarAlimento(double cantidad) {
+        double precioPorKilo = 10.0; // Precio del alimento por kilo
+        double maxCantidad = this.getSaldo() / precioPorKilo; // Cantidad máxima que se puede comprar con el saldo disponible
+
+        if (cantidad <= maxCantidad) {
+            double costoTotal = precioPorKilo * cantidad;
+            this.setComidaDisponible(this.getComidaDisponible() + cantidad);
+            this.setSaldo(this.getSaldo() - costoTotal);
+            return cantidad; // Se compra la cantidad solicitada
+        } else if (maxCantidad > 0) {
+            double costoTotal = precioPorKilo * maxCantidad;
+            this.setComidaDisponible(this.getComidaDisponible() + cantidad);
+            this.setSaldo(this.getSaldo() - costoTotal);
+            return maxCantidad; // Se compra la cantidad máxima posible
+        } else {
+            return 0; // No se puede comprar ninguna cantidad
+        }
+
+    }
+
+
 
 
 }
