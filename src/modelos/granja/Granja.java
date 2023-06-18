@@ -86,6 +86,22 @@ public class Granja implements Serializable, Entidad {
         return fecha;
     }
 
+    public HashSet<Integer> getUsuariosValidos() {
+        return usuariosValidos;
+    }
+
+    public double getComidaDisponible() {
+        return comidaDisponible;
+    }
+
+    public int getGallinasMuertas() {
+        return gallinasMuertas;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
     public void setFecha(String fecha) {
         this.fecha = fecha;
     }

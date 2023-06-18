@@ -1,3 +1,4 @@
+import clima.ClimaAPI;
 import excepciones.UsuarioNoValidoException;
 import excepciones.UsuarioYaExistenteException;
 import modelos.granja.Granja;
@@ -61,9 +62,17 @@ public class Navegacion {
                         if(this.getUsuario() instanceof Administrador) {
                             switch (opcionSeleccionada) {
                                 case 1:
+                                    System.out.println(ClimaAPI.obtenerDatosClima());
                                     break;
                                 case 2:
+                                    System.out.println("Estado general de las gallinas");
+                                    System.out.println(granja.calcularPromediosEstados());
                                     break;
+                                case 3:
+                                    System.out.println("Saldo actual de la empresa: " + granja.getSaldo());
+                                    break;
+                                case 4:
+
                                 default:
                                     break;
                             }
