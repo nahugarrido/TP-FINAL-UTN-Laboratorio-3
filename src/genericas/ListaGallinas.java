@@ -1,5 +1,6 @@
 package genericas;
 
+import enums.EnumEstado;
 import modelos.granja.Gallina;
 import modelos.usuarios.Usuario;
 
@@ -8,28 +9,33 @@ import java.io.Serializable;
 public class ListaGallinas extends GenericaList<Gallina> {
 
 
-    @Override
-    public int contarElementos() {
-        return super.contarElementos();
+
+    public String obtenerEstadoGallinas() {
+        StringBuilder texto = new StringBuilder();
+        for (Gallina gallina : listaGenerica) {
+            texto.append("ID: ").append(gallina.getId()).append(", Estado: ").append(gallina.getEstado().listarElementos()).append("\n");
+        }
+        return texto.toString();
     }
 
-    @Override
-    public <T1> void eliminarElemento(T1 elemento) {
-        super.eliminarElemento(elemento);
+    public double[] calcularPromediosEstados() {
+        double [] contadores = new double[2];
+        int totalGallinas = listaGenerica.size();
+        int countFelices = 0;
+        int countEstresadas = 0;
+        for (Gallina gallina : listaGenerica) {
+            if (gallina.getEstado().buscarElemento(EnumEstado.FELIZ)) {
+                countFelices++;
+            } else if (gallina.getEstado().buscarElemento(EnumEstado.ESTRESADA)) {
+                countEstresadas++;
+            }
+        }
+        double promedioFelices = (double) countFelices / totalGallinas * 100;
+        double promedioEstresadas = (double) countEstresadas / totalGallinas * 100;
+        contadores[0] = promedioFelices;
+        contadores[1] = promedioEstresadas;
+
+        return contadores;
     }
 
-    @Override
-    public String listarElementos() {
-        return super.listarElementos();
-    }
-
-    @Override
-    public Gallina buscarPorId(int id) {
-        return super.buscarPorId(id);
-    }
-
-    @Override
-    public void actualizarElemento(Gallina actualizado) {
-        super.actualizarElemento(actualizado);
-    }
 }

@@ -3,6 +3,7 @@ package modelos.granja;
 import clima.ClimaAPI;
 import enums.EnumEstado;
 import enums.EnumColor;
+import genericas.ListaGallinas;
 import interfaces.Entidad;
 import otros.GeneradorID;
 
@@ -21,7 +22,7 @@ public class Granja implements Serializable, Entidad {
     private double comidaDisponible;
     private int gallinasMuertas;
     private double saldo;
-    private ArrayList<Gallina> listaGallinas;
+    private ListaGallinas listaGallinas;
 
     public Granja(String nombre, String fecha, int idUsuario ) {
         this.id = GeneradorID.generarIdGranja();
@@ -32,7 +33,7 @@ public class Granja implements Serializable, Entidad {
         this.comidaDisponible = 10;
         this.gallinasMuertas =0;
         this.saldo= 50;
-        this.listaGallinas= new ArrayList<>();
+        this.listaGallinas= new ListaGallinas();
         ClimaAPI.actualizarDatosClima(this.getFecha());
     }
 
@@ -105,31 +106,13 @@ public class Granja implements Serializable, Entidad {
     }
 
     public String obtenerEstadoGallinas() {
-        StringBuilder texto = new StringBuilder();
-        for (Gallina gallina : listaGallinas) {
-            texto.append("ID: ").append(gallina.getId()).append(", Estado: ").append(gallina.getEstado().listarElementos()).append("\n");
-        }
-        return texto.toString();
+        return listaGallinas.obtenerEstadoGallinas();
     }
 
     public String calcularPromediosEstados() {
-        int totalGallinas = listaGallinas.size();
-        int countFelices = 0;
-        int countEstresadas = 0;
-
-        for (Gallina gallina : listaGallinas) {
-            if (gallina.getEstado().buscarElemento(EnumEstado.FELIZ)) {
-                countFelices++;
-            } else if (gallina.getEstado().buscarElemento(EnumEstado.ESTRESADA)) {
-                countEstresadas++;
-            }
-        }
-
-        double promedioFelices = (double) countFelices / totalGallinas * 100;
-        double promedioEstresadas = (double) countEstresadas / totalGallinas * 100;
-
-        return "Promedio de gallinas felices: " + promedioFelices + "%\n" +
-                "Promedio de gallinas estresadas: " + promedioEstresadas + "%";
+        double[] estados = listaGallinas.calcularPromediosEstados();
+       return "Promedio de gallinas felices: " + estados[0] + "%\n" +
+               "Promedio de gallinas estresadas: " + estados[1] + "%";
     }
 
 
