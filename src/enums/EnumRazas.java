@@ -1,19 +1,23 @@
 package enums;
 
+/// Los valores de vida util estan bajos para que sea mas divertido de testear
+
 public enum EnumRazas {
-    RHODE_ISLAND_RED("Rhode Island Red", EnumColor.MEDIO_CLARO,27,3),
-    SUSSEX("Sussex", EnumColor.CREMA,28,5),
-    FILIBAR("Filibar", EnumColor.BLANCO,26,-3);
+    RHODE_ISLAND_RED("Rhode Island Red", EnumColor.MEDIO_CLARO,27,3,12),
+    SUSSEX("Sussex", EnumColor.CREMA,28,5,10),
+    FILIBAR("Filibar", EnumColor.BLANCO,26,-3,8);
     private final String nombreRaza;
     private final EnumColor colorHuevo;
     private final int temperaturaMaximaContenta;
-    private final int getTemperaturaMinimaContenta;
+    private final int temperaturaMinimaContenta;
+    private final int vidaUtil;
 
-    EnumRazas(String nombreRaza, EnumColor colorHuevo, int temperaturaMaximaContenta, int getTemperaturaMinimaContenta) {
+    EnumRazas(String nombreRaza, EnumColor colorHuevo, int temperaturaMaximaContenta, int temperaturaMinimaContenta, int vidaUtil) {
         this.nombreRaza = nombreRaza;
         this.colorHuevo = colorHuevo;
         this.temperaturaMaximaContenta = temperaturaMaximaContenta;
-        this.getTemperaturaMinimaContenta = getTemperaturaMinimaContenta;
+        this.temperaturaMinimaContenta = temperaturaMinimaContenta;
+        this.vidaUtil = vidaUtil;
     }
 
     public String getNombreRaza() {
@@ -29,6 +33,14 @@ public enum EnumRazas {
     }
 
     public int getGetTemperaturaMinimaContenta() {
-        return getTemperaturaMinimaContenta;
+        return temperaturaMinimaContenta;
+    }
+
+    public int getTemperaturaMinimaContenta() {
+        return temperaturaMinimaContenta;
+    }
+
+    public int getVidaUtil() {
+        return vidaUtil;
     }
 }

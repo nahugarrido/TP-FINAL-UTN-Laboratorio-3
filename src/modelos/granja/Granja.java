@@ -3,6 +3,9 @@ package modelos.granja;
 import clima.ClimaAPI;
 import enums.EnumEstado;
 import enums.EnumColor;
+import genericas.Generica;
+import genericas.GenericaMap;
+import genericas.ListaGallinas;
 import interfaces.Entidad;
 import otros.GeneradorID;
 
@@ -21,18 +24,18 @@ public class Granja implements Serializable, Entidad {
     private double comidaDisponible;
     private int gallinasMuertas;
     private double saldo;
-    private ArrayList<Gallina> listaGallinas;
+    private ListaGallinas listaGallinas;
 
-    public Granja(String nombre, String fecha, int idUsuario ) {
+    public Granja(String nombre, String fecha, int idUsuario) {
         this.id = GeneradorID.generarIdGranja();
         this.nombre = nombre;
         this.fecha = fecha;
         this.usuariosValidos = new HashSet<>();
         usuariosValidos.add(idUsuario);
         this.comidaDisponible = 10;
-        this.gallinasMuertas =0;
-        this.saldo= 50;
-        this.listaGallinas= new ArrayList<>();
+        this.gallinasMuertas = 0;
+        this.saldo = 50;
+        this.listaGallinas = new ListaGallinas();
         ClimaAPI.actualizarDatosClima(this.getFecha());
     }
 
@@ -71,6 +74,10 @@ public class Granja implements Serializable, Entidad {
 
         // Actualizar datos del clima
         ClimaAPI.actualizarDatosClima(this.getFecha());
+
+        /// LOGICA DE AVANZAR UN DIA
+
+
     }
 
     public String getNombre() {
@@ -89,19 +96,47 @@ public class Granja implements Serializable, Entidad {
         this.fecha = fecha;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-    public void alimentarGallinas() {
-        double comidaDisponibleEnKilos = this.comidaDisponible;
-        int totalComidaConsumida = 0;
+    public double getComidaDisponible() {
+        return comidaDisponible;
+    }
 
-        for (Gallina gallina : listaGallinas) {
-            int comidaConsumida = gallina.comer(comidaDisponibleEnKilos);
-            totalComidaConsumida += comidaConsumida;
-            comidaDisponibleEnKilos -= (comidaConsumida / 1000.0); // Convertir gramos a kilos
+    public void setComidaDisponible(double comidaDisponible) {
+        this.comidaDisponible = comidaDisponible;
+    }
+
+    public int getGallinasMuertas() {
+        return gallinasMuertas;
+    }
+
+    public void setGallinasMuertas(int gallinasMuertas) {
+        this.gallinasMuertas = gallinasMuertas;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+    public void alimentarGallinas(double comidaKg) {
+        if (comidaKg > this.getComidaDisponible()) {
+            //throw new Exception()...
+        } else {
+            /// descontamos el valor a darle a las gallinas
+            this.setComidaDisponible(this.getComidaDisponible() - comidaKg);
+            /// realizamos la operacion
+            double comidaRestante = listaGallinas.alimentarGallinas(comidaKg);
+            /// actualizamos el valor de la comida en la granja en caso de que haya sobrado
+            this.setComidaDisponible(this.getComidaDisponible() + comidaRestante);
         }
 
-        // Actualizar la cantidad de comida disponible en la granja
-        this.comidaDisponible -= totalComidaConsumida / 1000; // Convertir gramos a kilos
+
     }
 
     public String obtenerEstadoGallinas() {
@@ -133,50 +168,17 @@ public class Granja implements Serializable, Entidad {
     }
 
 
-    public String recogerHuevos() {
-        int huevosMedioClaro = 0;
-        int huevosCrema = 0;
-        int huevosBlanco = 0;
-
-        for (Gallina gallina : listaGallinas) {
-            if (gallina.getColorHuevo() == EnumColor.MEDIO_CLARO) {
-                huevosMedioClaro += gallina.getCantidadHuevos();
-            } else if (gallina.getColorHuevo() == EnumColor.CREMA) {
-                huevosCrema += gallina.getCantidadHuevos();
-            } else if (gallina.getColorHuevo() == EnumColor.BLANCO) {
-                huevosBlanco += gallina.getCantidadHuevos();
-            }
-
-            //incrementamos el contador historico y reseteamos los atributos como cant de huevos que puso ese dia.
-            gallina.setContadorHistoricoHuevos(gallina.getCantidadHuevos()+ gallina.getContadorHistoricoHuevos());
-            gallina.resetearAtributos();
-        }
-
-        return "Huevos recogidos:\n" +
-                "Medio Claro: " + huevosMedioClaro + "\n" +
-                "Crema: " + huevosCrema + "\n" +
-                "Blanco: " + huevosBlanco;
+    public GenericaMap<EnumColor, Integer> recogerHuevos() {
+        GenericaMap<EnumColor, Integer> huevosRecogidos = listaGallinas.recogerHuevos();
+        return
     }
 
 
     public String revisarVidaUtilGallinas() {
-        int huevosPorVidaUtil = 100;  // Cantidad de huevos que una gallina puede poner antes de alcanzar su vida útil
-        int gallinasAlcanzaronVidaUtil = 0;
-        int gallinasProximasVidaUtil = 0;
-        int totalGallinas = listaGallinas.size();
-
-        for (Gallina gallina : listaGallinas) {
-            int huevosPuestos = gallina.getContadorHistoricoHuevos();
-
-            if (huevosPuestos >= huevosPorVidaUtil) {
-                gallinasAlcanzaronVidaUtil++;
-            } else if (huevosPuestos > (huevosPorVidaUtil - 10)) {
-                gallinasProximasVidaUtil++;
-            }
-        }
-
-        double promedioAlcanzaronVidaUtil = (double) gallinasAlcanzaronVidaUtil / totalGallinas * 100;
-        double promedioProximasVidaUtil = (double) gallinasProximasVidaUtil / totalGallinas * 100;
+        int totalGallinas = listaGallinas.contarElementos();
+        int[] contadores = listaGallinas.revisarVidaUtilGallinas();
+        double promedioAlcanzaronVidaUtil = (double) contadores[0] / totalGallinas * 100;
+        double promedioProximasVidaUtil = (double) contadores[1] / totalGallinas * 100;
 
         return "Promedio de gallinas que alcanzaron su vida útil: " + promedioAlcanzaronVidaUtil + "%\n" +
                 "Promedio de gallinas próximas a alcanzar su vida útil: " + promedioProximasVidaUtil + "%";

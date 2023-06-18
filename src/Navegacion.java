@@ -1,5 +1,7 @@
+import enums.EnumColor;
 import excepciones.UsuarioNoValidoException;
 import excepciones.UsuarioYaExistenteException;
+import genericas.GenericaMap;
 import modelos.granja.Granja;
 import modelos.usuarios.Administrador;
 import modelos.usuarios.Empleado;
@@ -55,42 +57,61 @@ public class Navegacion {
                     break;
                 case "2":
                     try {
+                        boolean continuarUsuario = true;
                         this.setUsuario(controladoraUsuarios.ingresarDatos());
-                        int opcionSeleccionada = usuario.mostrarMenu();
-                        /// switch con opciones segun tipo de usuario
-                        if(this.getUsuario() instanceof Administrador) {
-                            switch (opcionSeleccionada) {
-                                case 1:
-                                    break;
-                                case 2:
-                                    break;
-                                default:
-                                    break;
+                        do {
+
+
+                            int opcionSeleccionada = usuario.mostrarMenu();
+                            /// switch con opciones segun tipo de usuario
+                            if (this.getUsuario() instanceof Administrador) {
+                                switch (opcionSeleccionada) {
+                                    case 1:
+                                        break;
+                                    case 2:
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
-                        }
-                        if (this.getUsuario() instanceof Empleado) {
-                            switch (opcionSeleccionada) {
-                                case 1:
-                                    granja.alimentarGallinas();
-                                    break;
-                                case 2:
-                                    System.out.println(granja.obtenerEstadoGallinas());
-                                    System.out.println(granja.calcularPromediosEstados());
-                                    break;
-                                case 3:
-                                    System.out.println(granja.recogerHuevos());
-                                    break;
-                                case 4:
-                                    System.out.println(granja.revisarVidaUtilGallinas());
-                                    break;
-                                default:
-                                    System.out.println("Opción no válida");
-                                    break;
+                            if (this.getUsuario() instanceof Empleado) {
+                                switch (opcionSeleccionada) {
+                                    case 1:
+                                        System.out.println("Ingrese cantidad de comida en kilogramos: (25.5)");
+                                        double comida = Double.parseDouble(scan.nextLine());
+                                        granja.alimentarGallinas(comida);
+                                        break;
+                                    case 2:
+                                        System.out.println(granja.obtenerEstadoGallinas());
+                                        System.out.println(granja.calcularPromediosEstados());
+                                        break;
+                                    case 3:
+                                        GenericaMap<EnumColor, Integer> huevosRecogidos = granja.recogerHuevos();
+                                        /// logica de generar lote
+                                        System.out.println("Huevos recogidos:\n" +
+                                                "Medio Claro: " + huevosRecogidos.obtenerValor(EnumColor.MEDIO_CLARO) + "\n" +
+                                                "Crema: " + huevosRecogidos.obtenerValor(EnumColor.CREMA) + "\n" +
+                                                "Blanco: " + huevosRecogidos.obtenerValor(EnumColor.BLANCO));
+                                        break;
+                                    case 4:
+                                        System.out.println(granja.revisarVidaUtilGallinas());
+                                        break;
+                                    case 5:
+                                        granja.avanzarUnDia();
+                                        break;
+                                    case 6:
+                                        continuarUsuario = false;
+                                        break;
+                                    default:
+                                        System.out.println("Opción no válida");
+                                        break;
+                                }
                             }
-                        }
+                        } while (continuarUsuario);
                     } catch (UsuarioNoValidoException e) {
                         System.out.println(e.getMessage());
                     }
+
                     break;
                 case "3":
                     System.out.println(controladoraGranjas.mostrarGranjas());

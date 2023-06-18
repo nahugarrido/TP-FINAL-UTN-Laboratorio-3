@@ -1,6 +1,7 @@
 package modelos.granja;
 
 import enums.EnumColor;
+import genericas.Generica;
 import genericas.GenericaMap;
 import interfaces.Entidad;
 import otros.GeneradorID;
@@ -13,16 +14,13 @@ public class Lote implements Entidad {
     private boolean estaVendido;
     private double precioCompra;
 
-    public Lote(int idGranja, String fecha, int huevosMarrones, int huevosBlanco, int huevosCrema) {
+    public Lote(int idGranja, String fecha, GenericaMap<EnumColor, Integer> huevosRecogidos) {
         this.id = GeneradorID.generarIdLote();
         this.idGranja = idGranja;
         this.fecha = fecha;
         this.estaVendido = false;
         this.precioCompra = 0;
-        this.cantidadHuevos = new GenericaMap<>();
-        this.cantidadHuevos.agregarElemento(EnumColor.MEDIO_CLARO, huevosMarrones);
-        this.cantidadHuevos.agregarElemento(EnumColor.BLANCO, huevosBlanco);
-        this.cantidadHuevos.agregarElemento(EnumColor.CREMA, huevosCrema);
+        this.cantidadHuevos = huevosRecogidos;
     }
 
     public int getId() {

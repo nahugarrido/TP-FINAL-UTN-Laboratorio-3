@@ -165,5 +165,8 @@ public class Gallina implements Entidad {
     public void setColorHuevo(EnumColor colorHuevo) {
         this.colorHuevo = colorHuevo;
     }
-    
+
+    public EnumRazas getRaza() {
+        return raza;
+    }
 }
