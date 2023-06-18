@@ -20,6 +20,17 @@ public enum EnumRazas {
         this.vidaUtil = vidaUtil;
     }
 
+    @Override
+    public String toString() {
+        return "EnumRazas{" +
+                "nombreRaza='" + nombreRaza + '\'' +
+                ", colorHuevo=" + colorHuevo +
+                ", temperaturaMaximaContenta=" + temperaturaMaximaContenta +
+                ", temperaturaMinimaContenta=" + temperaturaMinimaContenta +
+                ", vidaUtil=" + vidaUtil +
+                '}';
+    }
+
     public String getNombreRaza() {
         return nombreRaza;
     }

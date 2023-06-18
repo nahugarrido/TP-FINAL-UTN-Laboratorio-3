@@ -7,6 +7,7 @@ import interfaces.Entidad;
 import otros.GeneradorID;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Lote implements Entidad, Serializable {
     private final int id;
@@ -23,6 +24,31 @@ public class Lote implements Entidad, Serializable {
         this.estaVendido = false;
         this.precioCompra = 0;
         this.cantidadHuevos = huevosRecogidos;
+    }
+
+    @Override
+    public String toString() {
+        return "Lote{" +
+                "id=" + id +
+                ", idGranja=" + idGranja +
+                ", fecha='" + fecha + '\'' +
+                ", cantidadHuevos=" + cantidadHuevos.listarElementos() +
+                ", estaVendido=" + estaVendido +
+                ", precioCompra=" + precioCompra +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object aComparar) {
+        if (aComparar != null && aComparar instanceof Lote) {
+            return this.getId() == ((Lote) aComparar).getId() && this.getIdGranja() == ((Lote) aComparar).getIdGranja();
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 5;
     }
 
     public int getId() {

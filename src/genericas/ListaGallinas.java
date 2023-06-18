@@ -18,7 +18,11 @@ public class ListaGallinas extends GenericaList<Gallina> implements Serializable
             } else {
                 break;
             }
+
+            /// se alterna el estado de la gallina
+            gallina.alterarEstado();
         }
+
         return comidaTotal;
     }
 
@@ -30,15 +34,16 @@ public class ListaGallinas extends GenericaList<Gallina> implements Serializable
         huevos.agregarElemento(EnumColor.BLANCO, 0);
 
         for (Gallina gallina : listaGenerica) {
-            /// se somete a la gallina a las condiciones de su entorno
-            gallina.alterarEstado();
             /// la gallina pone los huevos
             gallina.ponerHuevos();
             if (gallina.getColorHuevo() == EnumColor.MEDIO_CLARO) {
+                System.out.println("TEST: Entra en medio claro");
                 huevos.agregarElemento(EnumColor.MEDIO_CLARO, huevos.obtenerValor(EnumColor.MEDIO_CLARO) + gallina.getCantidadHuevos());
             } else if (gallina.getColorHuevo() == EnumColor.CREMA) {
+                System.out.println("TEST: Entra en crema");
                 huevos.agregarElemento(EnumColor.CREMA, huevos.obtenerValor(EnumColor.CREMA) + gallina.getCantidadHuevos());
             } else if (gallina.getColorHuevo() == EnumColor.BLANCO) {
+                System.out.println("TEST :Entra en blanco");
                 huevos.agregarElemento(EnumColor.BLANCO, huevos.obtenerValor(EnumColor.BLANCO) + gallina.getCantidadHuevos());
             }
             //incrementamos el contador historico y reseteamos los atributos como cant de huevos que puso ese dia.
@@ -46,7 +51,7 @@ public class ListaGallinas extends GenericaList<Gallina> implements Serializable
             /// se resetean los atributos de la gallina
             gallina.resetearAtributos();
         }
-        System.out.println("PRUEBA: " + huevos.listarElementos());
+        System.out.println("TEST: Resultado final: " + huevos.listarElementos());
         return huevos;
     }
 
@@ -119,6 +124,13 @@ public class ListaGallinas extends GenericaList<Gallina> implements Serializable
             }
         }
         return contador;
+    }
+
+    public void alterarEstadoGallinas() {
+        /// se somete a la gallina a las condiciones de su entorno
+        for(Gallina gallina : listaGenerica) {
+            gallina.alterarEstado();
+        }
     }
 
 }

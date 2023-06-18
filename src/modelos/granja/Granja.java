@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Granja implements Serializable, Entidad {
@@ -43,9 +44,26 @@ public class Granja implements Serializable, Entidad {
     public String toString() {
         return "Granja{" +
                 "id=" + id +
+                ", nombre='" + nombre + '\'' +
                 ", fecha='" + fecha + '\'' +
                 ", usuariosValidos=" + usuariosValidos +
+                ", comidaDisponible=" + comidaDisponible +
+                ", gallinasMuertas=" + gallinasMuertas +
+                ", saldo=" + saldo +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object aComparar) {
+        if(aComparar != null && aComparar instanceof Granja) {
+            return this.getId() == ((Granja) aComparar).getId();
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 4;
     }
 
     public String ingresarFecha() {
@@ -76,60 +94,7 @@ public class Granja implements Serializable, Entidad {
         ClimaAPI.actualizarDatosClima(this.getFecha());
 
         /// LOGICA DE AVANZAR UN DIA
-
-
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getFecha() {
-        return fecha;
-    }
-
-    public HashSet<Integer> getUsuariosValidos() {
-        return usuariosValidos;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public double getComidaDisponible() {
-        return comidaDisponible;
-    }
-
-    public void setComidaDisponible(double comidaDisponible) {
-        this.comidaDisponible = comidaDisponible;
-    }
-
-    public int getGallinasMuertas() {
-        return gallinasMuertas;
-    }
-
-    public void setGallinasMuertas(int gallinasMuertas) {
-        this.gallinasMuertas = gallinasMuertas;
-    }
-
-    public double getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
-    }
-
-    public void agregarUsuarioValido(int idUsuarioNuevo) {
-        usuariosValidos.add(idUsuarioNuevo);
+        listaGallinas.alterarEstadoGallinas();
     }
 
     public void alimentarGallinas(double comidaKg) throws ComidaNoSuficienteException {
@@ -137,11 +102,14 @@ public class Granja implements Serializable, Entidad {
             throw new ComidaNoSuficienteException("",this.getComidaDisponible(), comidaKg);
         } else {
             /// descontamos el valor a darle a las gallinas
+            System.out.println("TEST: anterior valor en comida, VALOR: " + this.getComidaDisponible());
             this.setComidaDisponible(this.getComidaDisponible() - comidaKg);
+            System.out.println("TEST: nuevo valor en comida, VALOR: " + this.getComidaDisponible());
             /// realizamos la operacion
             double comidaRestante = listaGallinas.alimentarGallinas(comidaKg);
             /// actualizamos el valor de la comida en la granja en caso de que haya sobrado
             this.setComidaDisponible(this.getComidaDisponible() + comidaRestante);
+            System.out.println("TEST: nuevo, nuevo valor (luego de ajuste) valor en comida, VALOR: " + this.getComidaDisponible());
         }
 
     }
@@ -159,7 +127,7 @@ public class Granja implements Serializable, Entidad {
 
     public Lote recogerHuevos() throws LoteVacioExcepcion {
         GenericaMap<EnumColor, Integer> huevosRecogidos = listaGallinas.recogerHuevos();
-        System.out.println("PRUEBA 2: " + huevosRecogidos);
+        System.out.println("PRUEBA 2: " + huevosRecogidos.listarElementos());
         if(huevosRecogidos.obtenerValor(EnumColor.MEDIO_CLARO) == 0 && huevosRecogidos.obtenerValor(EnumColor.BLANCO) == 0 && huevosRecogidos.obtenerValor(EnumColor.CREMA) == 0) {
             throw new LoteVacioExcepcion("No hay huevos que recoger");
         }
@@ -272,7 +240,56 @@ public class Granja implements Serializable, Entidad {
 
     }
 
+    public String getNombre() {
+        return nombre;
+    }
 
+    public int getId() {
+        return id;
+    }
 
+    public String getFecha() {
+        return fecha;
+    }
+
+    public HashSet<Integer> getUsuariosValidos() {
+        return usuariosValidos;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public double getComidaDisponible() {
+        return comidaDisponible;
+    }
+
+    public void setComidaDisponible(double comidaDisponible) {
+        this.comidaDisponible = comidaDisponible;
+    }
+
+    public int getGallinasMuertas() {
+        return gallinasMuertas;
+    }
+
+    public void setGallinasMuertas(int gallinasMuertas) {
+        this.gallinasMuertas = gallinasMuertas;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+    public void agregarUsuarioValido(int idUsuarioNuevo) {
+        usuariosValidos.add(idUsuarioNuevo);
+    }
 
 }

@@ -10,6 +10,7 @@ import interfaces.Entidad;
 import otros.GeneradorID;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Gallina implements Entidad, Serializable {
     private final int id;
@@ -41,10 +42,23 @@ public class Gallina implements Entidad, Serializable {
                 ", contadorHistoricoHuevos=" + contadorHistoricoHuevos +
                 ", cantidadHuevos=" + cantidadHuevos +
                 ", cantidadComida=" + cantidadComida +
-                ", raza=" + raza +
+                ", raza=" + raza.toString() +
                 ", colorHuevo=" + colorHuevo +
                 ", estado=" + estado.listarElementos() +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object aComparar) {
+        if(aComparar != null && aComparar instanceof Gallina) {
+            return this.getId() == ((Gallina) aComparar).getId() && this.getRaza() == ((Gallina) aComparar).getRaza();
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 5;
     }
 
     public int comer(double comidaDisponible) {

@@ -1,4 +1,5 @@
 import clima.ClimaAPI;
+import clima.DatosClima;
 import excepciones.ComidaNoSuficienteException;
 import excepciones.LoteVacioExcepcion;
 import enums.EnumRazas;
@@ -72,7 +73,8 @@ public class Navegacion {
                             if (this.getUsuario() instanceof Administrador) {
                                 switch (opcionSeleccionada) {
                                     case 1:
-                                        System.out.println(ClimaAPI.obtenerDatosClima());
+                                        DatosClima datos = ClimaAPI.obtenerDatosClima();
+                                        System.out.println("Ciudad: " + datos.getCiudad() + ",Clima: " + datos.getCodigoTexto() + ",min:  " + datos.getTemperaturaMinima() + ",max:  " +datos.getTemperaturaMaxima());
                                         break;
                                     case 2:
                                         System.out.println("Estado general de las gallinas");
@@ -112,16 +114,18 @@ public class Navegacion {
                                             // Llamar al método comprarGallinas de la granja pasando la raza y la cantidad
                                             int contador = granja.comprarGallinas(raza, cantidad);
                                             controladoraGranjas.actualizarGranja(granja);
-                                            System.out.println("Con el dinero disponible se compraron " + contador + "galllinas");
+                                            System.out.println("Con el dinero disponible se compraron " + contador + " galllinas");
                                         }
                                         break;
                                     case 5:
+                                        System.out.println("Comida disponible: " + granja.getComidaDisponible());
                                         System.out.println("Ingrese cantidad de kilos de alimento que desea comprar: ");
                                         double cant = scan.nextDouble();
-                                        System.out.println("Con el dinero disponible se compro un total de "+ granja.comprarAlimento(cant)+ "kilos de alimento");
+                                        System.out.println("Con el dinero disponible se compro un total de "+ granja.comprarAlimento(cant)+ " kilos de alimento");
                                         break;
                                     case 6:
-                                        System.out.println(controladoraLotes.obtenerLotes(granja.getId()));
+                                        System.out.println(controladoraLotes.obtenerLotes(granja.getId()).listarElementos());
+                                        break;
                                     case 8:
                                         try {
                                             int idUsuarioNuevo = controladoraUsuarios.registrarUsuarioEmpleado();
