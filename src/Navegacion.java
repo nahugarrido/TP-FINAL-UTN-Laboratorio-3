@@ -110,7 +110,9 @@ public class Navegacion {
 
                                         if (raza != null) {
                                             // Llamar al método comprarGallinas de la granja pasando la raza y la cantidad
-                                            System.out.println("Con el dinero disponible se compraron " + granja.comprarGallinas(raza, cantidad) + "galllinas");
+                                            int contador = granja.comprarGallinas(raza, cantidad);
+                                            controladoraGranjas.actualizarGranja(granja);
+                                            System.out.println("Con el dinero disponible se compraron " + contador + "galllinas");
                                         }
                                         break;
                                     case 5:
@@ -140,7 +142,7 @@ public class Navegacion {
                             if (this.getUsuario() instanceof Empleado) {
                                 switch (opcionSeleccionada) {
                                     case 1:
-                                        System.out.println("Ingrese cantidad de comida en kilogramos: (25.5)");
+                                        System.out.println("Ingrese cantidad de comida en kilogramos: (" + granja.getComidaDisponible() + ")");
                                         double comida = Double.parseDouble(scan.nextLine());
                                         try {
                                             granja.alimentarGallinas(comida);
@@ -160,6 +162,7 @@ public class Navegacion {
                                         try {
                                             nuevoLote = granja.recogerHuevos();
                                             controladoraLotes.agregarLoteNuevo(nuevoLote);
+                                            controladoraGranjas.actualizarGranja(granja);
                                             System.out.println("Has generado un nuevo lote de huevos");
                                             System.out.println(nuevoLote.toString());
                                         } catch (LoteVacioExcepcion e) {
@@ -174,6 +177,7 @@ public class Navegacion {
                                         granja.avanzarUnDia();
                                         break;
                                     case 7:
+                                        controladoraGranjas.actualizarGranja(granja);
                                         continuarUsuario = false;
                                         break;
                                     default:

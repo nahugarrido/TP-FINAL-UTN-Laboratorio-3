@@ -59,6 +59,7 @@ public class ControladoraGranjas {
      */
     public void actualizarGranja(Granja granja) {
         listaGranjas.actualizarElemento(granja);
+        this.guardarArchivoGranjas();
     }
 
     /**

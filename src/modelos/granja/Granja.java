@@ -144,11 +144,10 @@ public class Granja implements Serializable, Entidad {
             this.setComidaDisponible(this.getComidaDisponible() + comidaRestante);
         }
 
-
     }
 
     public String obtenerEstadoGallinas() {
-        return listaGallinas.obtenerEstadoGallinas();
+        return listaGallinas.listarElementos();
     }
 
     public String calcularPromediosEstados() {
@@ -160,6 +159,7 @@ public class Granja implements Serializable, Entidad {
 
     public Lote recogerHuevos() throws LoteVacioExcepcion {
         GenericaMap<EnumColor, Integer> huevosRecogidos = listaGallinas.recogerHuevos();
+        System.out.println("PRUEBA 2: " + huevosRecogidos);
         if(huevosRecogidos.obtenerValor(EnumColor.MEDIO_CLARO) == 0 && huevosRecogidos.obtenerValor(EnumColor.BLANCO) == 0 && huevosRecogidos.obtenerValor(EnumColor.CREMA) == 0) {
             throw new LoteVacioExcepcion("No hay huevos que recoger");
         }

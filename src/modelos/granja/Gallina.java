@@ -9,7 +9,9 @@ import genericas.GenericaSet;
 import interfaces.Entidad;
 import otros.GeneradorID;
 
-public class Gallina implements Entidad {
+import java.io.Serializable;
+
+public class Gallina implements Entidad, Serializable {
     private final int id;
     private int diasSinComer;
     private int contadorHistoricoHuevos;
@@ -39,6 +41,7 @@ public class Gallina implements Entidad {
                 ", contadorHistoricoHuevos=" + contadorHistoricoHuevos +
                 ", cantidadHuevos=" + cantidadHuevos +
                 ", cantidadComida=" + cantidadComida +
+                ", raza=" + raza +
                 ", colorHuevo=" + colorHuevo +
                 ", estado=" + estado.listarElementos() +
                 '}';

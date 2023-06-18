@@ -4,7 +4,9 @@ import enums.EnumColor;
 import enums.EnumEstado;
 import modelos.granja.Gallina;
 
-public class ListaGallinas extends GenericaList<Gallina> {
+import java.io.Serializable;
+
+public class ListaGallinas extends GenericaList<Gallina> implements Serializable {
 
     public double alimentarGallinas(double comidaDisponible) {
         double comidaTotal = comidaDisponible;
@@ -44,7 +46,7 @@ public class ListaGallinas extends GenericaList<Gallina> {
             /// se resetean los atributos de la gallina
             gallina.resetearAtributos();
         }
-
+        System.out.println("PRUEBA: " + huevos.listarElementos());
         return huevos;
     }
 

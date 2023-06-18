@@ -1,9 +1,10 @@
 package genericas;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GenericaMap<K,T> {
+public class GenericaMap<K,T> implements Serializable {
 
     HashMap<K, T> mapGenerico;
 

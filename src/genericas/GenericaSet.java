@@ -2,10 +2,11 @@ package genericas;
 
 import genericas.Generica;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 
-public class GenericaSet<T> implements Generica<T> {
+public class GenericaSet<T> implements Generica<T>, Serializable {
 
     HashSet<T> setGenerico;
 

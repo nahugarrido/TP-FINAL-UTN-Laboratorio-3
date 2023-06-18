@@ -6,7 +6,9 @@ import genericas.GenericaMap;
 import interfaces.Entidad;
 import otros.GeneradorID;
 
-public class Lote implements Entidad {
+import java.io.Serializable;
+
+public class Lote implements Entidad, Serializable {
     private final int id;
     private int idGranja;
     private String fecha;
