@@ -77,18 +77,7 @@ public class Configuracion implements Serializable {
         Configuracion.guardarEnArchivo();
     }
 
-    /*    public void setContadorHuevos(int contadorHuevos) {
-        this.contadorHuevos = contadorHuevos;
-        Configuracion.guardarEnArchivo();
-    }*/
-
-    /*    public int getContadorHuevos() {
-        return this.contadorHuevos;
-    }*/
-
-
     public static void guardarEnArchivo() {
         serializar.serializar(Configuracion.getInstance(), "configuracion");
     }
-
 }

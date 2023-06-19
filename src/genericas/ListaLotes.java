@@ -15,4 +15,5 @@ public class ListaLotes extends GenericaList<Lote> implements Serializable {
         }
         return listaAuxiliar;
     }
+
 }

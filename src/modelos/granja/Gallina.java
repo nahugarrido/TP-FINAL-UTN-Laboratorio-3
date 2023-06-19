@@ -75,7 +75,6 @@ public class Gallina implements Entidad, Serializable {
             this.setCantidadComida(comida);
         }
 
-
         /// Se aumenta o reinicia la cantidad de dias sin comer
         /// si la gallina comio menos de 10 gramos consideramos que no ha comido
         if(this.getCantidadComida() < 10) {
@@ -177,10 +176,6 @@ public class Gallina implements Entidad, Serializable {
 
     public void setContadorHistoricoHuevos(int contadorHistoricoHuevos) {
         this.contadorHistoricoHuevos = contadorHistoricoHuevos;
-    }
-
-    public void setColorHuevo(EnumColor colorHuevo) {
-        this.colorHuevo = colorHuevo;
     }
 
     public EnumRazas getRaza() {

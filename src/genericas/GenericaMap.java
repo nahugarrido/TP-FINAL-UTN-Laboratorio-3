@@ -32,7 +32,7 @@ public class GenericaMap<K,T> implements Serializable {
     public String listarElementos() {
         StringBuilder texto  = new StringBuilder();
         for(Map.Entry<K,T> elemento : mapGenerico.entrySet()) {
-            texto.append(elemento.toString()).append("\n");
+            texto.append(elemento.toString()).append('\'');
         }
         return texto.toString();
     }

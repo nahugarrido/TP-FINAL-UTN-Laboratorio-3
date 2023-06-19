@@ -3,18 +3,18 @@ package modelos.granja;
 import clima.ClimaAPI;
 import enums.EnumColor;
 import excepciones.ComidaNoSuficienteException;
+import excepciones.HanComidoException;
 import excepciones.LoteVacioExcepcion;
 import enums.EnumRazas;
+import excepciones.RecolectarHuevosException;
 import genericas.GenericaMap;
 import genericas.ListaGallinas;
-import genericas.ListaLotes;
 import interfaces.Entidad;
 import otros.GeneradorID;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Granja implements Serializable, Entidad {
@@ -26,6 +26,9 @@ public class Granja implements Serializable, Entidad {
     private int gallinasMuertas;
     private double saldo;
     private ListaGallinas listaGallinas;
+    private boolean hanComido;
+    private boolean hanRecolectado;
+
 
     public Granja(String nombre, String fecha, int idUsuario) {
         this.id = GeneradorID.generarIdGranja();
@@ -37,7 +40,8 @@ public class Granja implements Serializable, Entidad {
         this.gallinasMuertas = 0;
         this.saldo = 5000;
         this.listaGallinas = new ListaGallinas();
-        ClimaAPI.actualizarDatosClima(this.getFecha());
+        this.hanComido = false;
+        this.hanRecolectado = false;
     }
 
     @Override
@@ -77,9 +81,17 @@ public class Granja implements Serializable, Entidad {
         return "La fecha ingresada es: " + this.getFecha();
     }
 
-    public void avanzarUnDia() {
-        LocalDate fechaDate = LocalDate.parse(this.getFecha());
+    public void avanzarUnDia() throws RecolectarHuevosException {
+        if(this.isHanComido() && !this.isHanRecolectado()) {
+            throw new RecolectarHuevosException("Debes recolectar los huevos antes de avanzar! ");
+        }
 
+        if(!this.isHanComido()) {
+            listaGallinas.aumentarContadorDiasSinComer();
+            System.out.println("Debes tener cuidado, si no alimentas a tus gallinas, pueden morir!");
+        }
+
+        LocalDate fechaDate = LocalDate.parse(this.getFecha());
         // Agregar un día a la fecha anterior
         LocalDate nuevaFecha = fechaDate.plusDays(1);
 
@@ -93,11 +105,25 @@ public class Granja implements Serializable, Entidad {
         // Actualizar datos del clima
         ClimaAPI.actualizarDatosClima(this.getFecha());
 
-        /// LOGICA DE AVANZAR UN DIA
+        /// LOGICA DE AVANZAR UN DIA DEBAJO
+
+        /// RESETEAR BOLEANOS
+        this.setHanComido(false);
+        this.setHanRecolectado(false);
+
+        /// ALTERAR ESTADO DE LAS GALLINAS
         listaGallinas.alterarEstadoGallinas();
     }
 
-    public void alimentarGallinas(double comidaKg) throws ComidaNoSuficienteException {
+    public String costosFijos() {
+        this.setSaldo(this.getSaldo() - 500);
+        return "Se aplican los costos fijos (-500), el nuevo saldo de la granja es: " + this.getSaldo();
+    }
+
+    public void alimentarGallinas(double comidaKg) throws ComidaNoSuficienteException, HanComidoException {
+        if(hanComido == true) {
+           throw new HanComidoException("Las gallinas ya han comido hoy.");
+        }
         if (comidaKg > this.getComidaDisponible()) {
             throw new ComidaNoSuficienteException("",this.getComidaDisponible(), comidaKg);
         } else {
@@ -110,6 +136,7 @@ public class Granja implements Serializable, Entidad {
             /// actualizamos el valor de la comida en la granja en caso de que haya sobrado
             this.setComidaDisponible(this.getComidaDisponible() + comidaRestante);
             System.out.println("TEST: nuevo, nuevo valor (luego de ajuste) valor en comida, VALOR: " + this.getComidaDisponible());
+            this.setHanComido(true);
         }
 
     }
@@ -125,14 +152,16 @@ public class Granja implements Serializable, Entidad {
     }
 
 
-    public Lote recogerHuevos() throws LoteVacioExcepcion {
+    public Lote recogerHuevos() throws LoteVacioExcepcion, RecolectarHuevosException {
+        if(this.hanRecolectado) {
+            throw new RecolectarHuevosException("Los huevos ya han sido recogidos hoy");
+        }
         GenericaMap<EnumColor, Integer> huevosRecogidos = listaGallinas.recogerHuevos();
-        System.out.println("PRUEBA 2: " + huevosRecogidos.listarElementos());
+        this.setHanRecolectado(true);
         if(huevosRecogidos.obtenerValor(EnumColor.MEDIO_CLARO) == 0 && huevosRecogidos.obtenerValor(EnumColor.BLANCO) == 0 && huevosRecogidos.obtenerValor(EnumColor.CREMA) == 0) {
             throw new LoteVacioExcepcion("No hay huevos que recoger");
         }
-        Lote nuevoLote = new Lote(this.getId(),this.getFecha(), huevosRecogidos);
-        return nuevoLote;
+        return new Lote(this.getId(),this.getFecha(), huevosRecogidos);
     }
 
 
@@ -142,8 +171,9 @@ public class Granja implements Serializable, Entidad {
         double promedioAlcanzaronVidaUtil = (double) contadores[0] / totalGallinas * 100;
         double promedioProximasVidaUtil = (double) contadores[1] / totalGallinas * 100;
 
-        return "Promedio de gallinas que alcanzaron su vida útil: " + promedioAlcanzaronVidaUtil + "%\n" +
-                "Promedio de gallinas próximas a alcanzar su vida útil: " + promedioProximasVidaUtil + "%";
+        return "Total de gallinas = (" + totalGallinas + ")" + "\n" +
+                "Promedio de gallinas que alcanzaron su vida útil: " + promedioAlcanzaronVidaUtil + "(" + contadores[0] +")" + "%\n" +
+                "Promedio de gallinas próximas a alcanzar su vida útil: " + promedioProximasVidaUtil + "(" + contadores[0] +")" + "%";
     }
 
     public String matarGallinasVidaUtil() {
@@ -152,11 +182,14 @@ public class Granja implements Serializable, Entidad {
 
         if(random > 0) {
             texto = "Has ido a matar a Cleta, pero has visto sus brillantes ojos y no has podido hacerlo.";
-        } else if(random > 0.20) {
+        }
+        if(random > 0.20) {
             texto = "Has tratado de matar a Turuleca, pero sus hijos observaban y te has arrepentido.";
-        } else if(random > 0.40) {
+        }
+        if(random > 0.40) {
             texto = "Has tratado de matar a Julia, pero es programadora y simio no mata simio.";
-        } else if(random > 0.60) {
+        }
+        if(random > 0.60) {
             texto = "Te has tropezado agarrando el cuchillo, decides que hoy no mataras a Cleta.";
         }
 
@@ -292,4 +325,19 @@ public class Granja implements Serializable, Entidad {
         usuariosValidos.add(idUsuarioNuevo);
     }
 
+    public boolean isHanComido() {
+        return hanComido;
+    }
+
+    public void setHanComido(boolean hanComido) {
+        this.hanComido = hanComido;
+    }
+
+    public boolean isHanRecolectado() {
+        return hanRecolectado;
+    }
+
+    public void setHanRecolectado(boolean hanRecolectado) {
+        this.hanRecolectado = hanRecolectado;
+    }
 }

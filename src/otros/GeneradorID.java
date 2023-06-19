@@ -42,14 +42,7 @@ public class GeneradorID {
      */
     public static int generarIdLote() {
         int nuevoId = configuracion.getContadorLotes() + 1;
-        configuracion.setContadorUsuarios(nuevoId);
+        configuracion.setContadorLotes(nuevoId);
         return nuevoId;
     }
-
-
-    /*    public static int generarIdHuevo() {
-        int nuevoId = configuracion.getContadorHuevos() + 1;
-        configuracion.setContadorHuevos(nuevoId);
-        return nuevoId;
-    }*/
 }

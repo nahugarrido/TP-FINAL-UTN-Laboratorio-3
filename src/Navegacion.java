@@ -1,10 +1,7 @@
 import clima.ClimaAPI;
 import clima.DatosClima;
-import excepciones.ComidaNoSuficienteException;
-import excepciones.LoteVacioExcepcion;
+import excepciones.*;
 import enums.EnumRazas;
-import excepciones.UsuarioNoValidoException;
-import excepciones.UsuarioYaExistenteException;
 import modelos.granja.Granja;
 import modelos.granja.Lote;
 import modelos.usuarios.Administrador;
@@ -38,7 +35,7 @@ public class Navegacion {
      */
     public void menuPrincipal() {
         Scanner scan = new Scanner(System.in);
-        String opcion = "";
+        String opcion;
         boolean continuar = true;
         do {
             System.out.println("MENU PRINCIPAL--------------------------");
@@ -47,6 +44,10 @@ public class Navegacion {
             System.out.println("3) Ver granjas");
             System.out.println("4) Ver usuarios");
             System.out.println("5) Ver historial lotes");
+            System.out.println("*) Modificar una granja *** AGREGAR");
+            System.out.println("*) Modificar un usuario *** AGREGAR");
+            System.out.println("*) Eliminar una granja *** AGREGAR");
+            System.out.println("*) Eliminar un usuario *** AGREGAR");
             System.out.println("6) Salir");
             System.out.println("----------------------------------------");
             System.out.print("Navegar: ");
@@ -67,6 +68,18 @@ public class Navegacion {
                         /// Se selecciona la granja
                         this.setGranja(controladoraGranjas.obtenerGranja(usuario.getIdGranja()));
 
+                        if(granja.getSaldo() < 0) {
+                            try {
+                                throw new SaldoNegativoException("",granja.getSaldo());
+                            } catch (SaldoNegativoException e) {
+                                System.out.println(e.getMessage());
+                                break;
+                            }
+                        }
+
+                        /// Se actualiza datos de clima
+                        ClimaAPI.actualizarDatosClima(granja.getFecha());
+
                         do {
                             int opcionSeleccionada = usuario.mostrarMenu();
                             /// switch con opciones segun tipo de usuario
@@ -74,16 +87,18 @@ public class Navegacion {
                                 switch (opcionSeleccionada) {
                                     case 1:
                                         DatosClima datos = ClimaAPI.obtenerDatosClima();
-                                        System.out.println("Ciudad: " + datos.getCiudad() + ",Clima: " + datos.getCodigoTexto() + ",min:  " + datos.getTemperaturaMinima() + ",max:  " +datos.getTemperaturaMaxima());
+                                        System.out.println("Ciudad: " + datos.getCiudad() + " ,Clima: " + datos.getCodigoTexto() + ", min: " + datos.getTemperaturaMinima() + ", max: " + datos.getTemperaturaMaxima());
                                         break;
                                     case 2:
-                                        System.out.println("Estado general de las gallinas");
                                         System.out.println(granja.calcularPromediosEstados());
                                         break;
                                     case 3:
-                                        System.out.println("Saldo actual de la empresa: " + granja.getSaldo());
+                                        System.out.println("La empresa dispone de: $" + granja.getSaldo() + " pesos para gastar");
                                         break;
                                     case 4:
+                                        System.out.println("La empresa dispone de: " + granja.getComidaDisponible() + " kilos de comida.");
+                                        break;
+                                    case 5:
                                         System.out.println("¿Qué gallina deseas comprar?");
                                         System.out.println("1. Rhode Island Red");
                                         System.out.println("2. Sussex");
@@ -117,16 +132,19 @@ public class Navegacion {
                                             System.out.println("Con el dinero disponible se compraron " + contador + " galllinas");
                                         }
                                         break;
-                                    case 5:
+                                    case 6:
                                         System.out.println("Comida disponible: " + granja.getComidaDisponible());
                                         System.out.println("Ingrese cantidad de kilos de alimento que desea comprar: ");
                                         double cant = scan.nextDouble();
-                                        System.out.println("Con el dinero disponible se compro un total de "+ granja.comprarAlimento(cant)+ " kilos de alimento");
+                                        System.out.println("Con el dinero disponible se compro un total de " + granja.comprarAlimento(cant) + " kilos de alimento");
                                         break;
-                                    case 6:
+                                    case 7:
                                         System.out.println(controladoraLotes.obtenerLotes(granja.getId()).listarElementos());
                                         break;
-                                    case 8:
+
+                                    //// IMPLEMENTAR CASE 8 VENDER LOTES DISPONIBLES
+
+                                    case 9:
                                         try {
                                             int idUsuarioNuevo = controladoraUsuarios.registrarUsuarioEmpleado();
                                             controladoraUsuarios.actualizarIdGranja(idUsuarioNuevo, granja.getId());
@@ -136,7 +154,7 @@ public class Navegacion {
                                             System.out.println(e.getMessage());
                                         }
                                         break;
-                                    case 9:
+                                    case 10:
                                         continuarUsuario = false;
                                         break;
                                     default:
@@ -146,41 +164,62 @@ public class Navegacion {
                             if (this.getUsuario() instanceof Empleado) {
                                 switch (opcionSeleccionada) {
                                     case 1:
+                                        DatosClima datos = ClimaAPI.obtenerDatosClima();
+                                        System.out.println("Ciudad: " + datos.getCiudad() + " ,Clima: " + datos.getCodigoTexto() + ", min: " + datos.getTemperaturaMinima() + ", max: " + datos.getTemperaturaMaxima());                                        break;
+                                    case 2:
                                         System.out.println("Ingrese cantidad de comida en kilogramos: (" + granja.getComidaDisponible() + ")");
                                         double comida = Double.parseDouble(scan.nextLine());
                                         try {
                                             granja.alimentarGallinas(comida);
-                                        } catch (ComidaNoSuficienteException e) {
+
+                                        } catch (ComidaNoSuficienteException | HanComidoException e) {
                                             System.out.println(e.getMessage());
                                         }
                                         break;
-                                    case 2:
+                                    case 3:
                                         System.out.println(granja.matarGallinasVidaUtil());
                                         break;
-                                    case 3:
+                                    case 4:
                                         System.out.println(granja.obtenerEstadoGallinas());
                                         System.out.println(granja.calcularPromediosEstados());
                                         break;
-                                    case 4:
-                                        Lote nuevoLote = null;
+                                    case 5:
+
                                         try {
-                                            nuevoLote = granja.recogerHuevos();
+                                            Lote nuevoLote = granja.recogerHuevos();
                                             controladoraLotes.agregarLoteNuevo(nuevoLote);
                                             controladoraGranjas.actualizarGranja(granja);
                                             System.out.println("Has generado un nuevo lote de huevos");
                                             System.out.println(nuevoLote.toString());
-                                        } catch (LoteVacioExcepcion e) {
+                                        } catch (LoteVacioExcepcion | RecolectarHuevosException e) {
                                             System.out.println(e.getMessage());
                                         }
                                         break;
-                                    case 5:
+                                    case 6:
                                         System.out.println(granja.revisarVidaUtilGallinas());
                                         break;
-                                    case 6:
-                                        granja.madreNaturaleza();
-                                        granja.avanzarUnDia();
-                                        break;
                                     case 7:
+                                        try {
+                                            granja.avanzarUnDia();
+                                            System.out.println(granja.madreNaturaleza());
+                                            System.out.println(granja.costosFijos());
+
+                                            /// se encuentra aca porque debemos printear el texto de costos fijos antes de tirarla
+                                            if (granja.getSaldo() < 0) {
+                                                throw new SaldoNegativoException("", granja.getSaldo());
+                                            }
+
+                                        }
+                                         catch (RecolectarHuevosException e) {
+                                            System.out.println(e.getMessage());
+                                        } catch (SaldoNegativoException e) {
+                                            System.out.println(e.getMessage());
+                                            continuarUsuario = false;
+                                        }
+
+
+                                        break;
+                                    case 8:
                                         controladoraGranjas.actualizarGranja(granja);
                                         continuarUsuario = false;
                                         break;
