@@ -1,3 +1,4 @@
+import excepciones.NoHayLotesException;
 import genericas.GenericaList;
 import genericas.ListaLotes;
 import modelos.granja.Lote;
@@ -41,8 +42,14 @@ public class ControladoraLotes {
         return listaLotes.buscarPorId(idLote);
     }
 
-    public GenericaList<Lote> obtenerLotes(int idGranja) {
+    public GenericaList<Lote> obtenerLotes(int idGranja) throws NoHayLotesException {
         return listaLotes.obtenerLotes(idGranja);
+    }
+
+    public double venderLotes(int idGranja, double cotizacionHuevos) throws NoHayLotesException {
+        double beneficios = listaLotes.venderLotes(idGranja, cotizacionHuevos);
+        this.guardarArchivoLotes();
+        return beneficios;
     }
 
     public void agregarLoteNuevo(Lote loteNuevo) {

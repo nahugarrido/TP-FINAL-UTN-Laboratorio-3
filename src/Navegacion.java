@@ -2,6 +2,7 @@ import clima.ClimaAPI;
 import clima.DatosClima;
 import excepciones.*;
 import enums.EnumRazas;
+import genericas.GenericaList;
 import modelos.granja.Granja;
 import modelos.granja.Lote;
 import modelos.usuarios.Administrador;
@@ -10,6 +11,7 @@ import modelos.usuarios.Usuario;
 import otros.Configuracion;
 
 import java.io.File;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -36,6 +38,7 @@ public class Navegacion {
     public void menuPrincipal() {
         Scanner scan = new Scanner(System.in);
         String opcion;
+        Random random = new Random();
         boolean continuar = true;
         do {
             System.out.println("MENU PRINCIPAL--------------------------");
@@ -87,7 +90,7 @@ public class Navegacion {
                                 switch (opcionSeleccionada) {
                                     case 1:
                                         DatosClima datos = ClimaAPI.obtenerDatosClima();
-                                        System.out.println("Ciudad: " + datos.getCiudad() + " ,Clima: " + datos.getCodigoTexto() + ", min: " + datos.getTemperaturaMinima() + ", max: " + datos.getTemperaturaMaxima());
+                                        System.out.println("Ciudad: " + datos.getCiudad() + ", Clima: " + datos.getCodigoTexto() + ", min: " + datos.getTemperaturaMinima() + ", max: " + datos.getTemperaturaMaxima());
                                         break;
                                     case 2:
                                         System.out.println(granja.calcularPromediosEstados());
@@ -99,51 +102,55 @@ public class Navegacion {
                                         System.out.println("La empresa dispone de: " + granja.getComidaDisponible() + " kilos de comida.");
                                         break;
                                     case 5:
-                                        System.out.println("¿Qué gallina deseas comprar?");
-                                        System.out.println("1. Rhode Island Red");
-                                        System.out.println("2. Sussex");
-                                        System.out.println("3. Filibar");
-
-                                        int opcionGallina = scan.nextInt();
-                                        System.out.println("Ingrese la cantidad de gallinas que desea comprar:");
-                                        int cantidad = scan.nextInt();
-
-                                        EnumRazas raza = null;
-
-                                        switch (opcionGallina) {
-                                            case 1:
-                                                raza = EnumRazas.RHODE_ISLAND_RED;
-                                                break;
-                                            case 2:
-                                                raza = EnumRazas.SUSSEX;
-                                                break;
-                                            case 3:
-                                                raza = EnumRazas.FILIBAR;
-                                                break;
-                                            default:
-                                                System.out.println("Opción inválida");
-                                                break;
-                                        }
-
-                                        if (raza != null) {
-                                            // Llamar al método comprarGallinas de la granja pasando la raza y la cantidad
-                                            int contador = granja.comprarGallinas(raza, cantidad);
-                                            controladoraGranjas.actualizarGranja(granja);
-                                            System.out.println("Con el dinero disponible se compraron " + contador + " galllinas");
-                                        }
+                                        int contador = granja.comprarGallinas();
+                                        controladoraGranjas.actualizarGranja(granja);
+                                        System.out.println("Se han comprado  " + contador + " galllinas, tu nuevo saldo es $" + granja.getSaldo());
                                         break;
                                     case 6:
-                                        System.out.println("Comida disponible: " + granja.getComidaDisponible());
-                                        System.out.println("Ingrese cantidad de kilos de alimento que desea comprar: ");
+                                        System.out.println("COMIDA DISPONIBLE: " + granja.getComidaDisponible());
+                                        System.out.println("PRECIO POR KILO: $180");
+                                        System.out.println("Ingrese kilos de comida a comprar: ");
                                         double cant = scan.nextDouble();
                                         System.out.println("Con el dinero disponible se compro un total de " + granja.comprarAlimento(cant) + " kilos de alimento");
                                         break;
                                     case 7:
-                                        System.out.println(controladoraLotes.obtenerLotes(granja.getId()).listarElementos());
+                                        try {
+                                            GenericaList<Lote> lotes = controladoraLotes.obtenerLotes(granja.getId());
+                                            System.out.println(lotes.listarElementos());
+                                        } catch (NoHayLotesException e) {
+                                            System.out.println(e.getMessage());
+                                        }
                                         break;
+                                    case 8:
+                                        double auxRandom = random.nextDouble() * 100;
+                                        double cotizacionHuevos = 0;
+                                        if (auxRandom < 40) {
+                                            cotizacionHuevos = 20;
+                                        } else if (auxRandom < 80) {
+                                            cotizacionHuevos = 30;
+                                        } else {
+                                            cotizacionHuevos = 50;
+                                        }
 
-                                    //// IMPLEMENTAR CASE 8 VENDER LOTES DISPONIBLES
+                                        System.out.println("COTIZACIONES DE HUEVOS DEL DIA------------");
+                                        System.out.println("1) HUEVO BLANCO $" + (cotizacionHuevos+5));
+                                        System.out.println("2) HUEVO CREMA $" + (cotizacionHuevos-5));
+                                        System.out.println("3) HUEVO MEDIO CLARO $" + cotizacionHuevos);
+                                        System.out.println("DESEAS LIQUIDAR TUS LOTES? (y/n):" );
+                                        String opcionCotizaciones = scan.nextLine();
+                                        if(opcionCotizaciones.equals("y")) {
+                                            try {
+                                                double beneficios = controladoraLotes.venderLotes(granja.getId(), cotizacionHuevos);
+                                                granja.setSaldo(granja.getSaldo() + beneficios);
+                                                System.out.println("Has vendido tus lotes disponibles y has obtenido $" + beneficios);
 
+                                            } catch (NoHayLotesException e) {
+                                                System.out.println(e.getMessage());
+                                            }
+                                        } else {
+                                            System.out.println("Puedes vender tus lotes cuando quieras!");
+                                        }
+                                        break;
                                     case 9:
                                         try {
                                             int idUsuarioNuevo = controladoraUsuarios.registrarUsuarioEmpleado();
@@ -165,7 +172,7 @@ public class Navegacion {
                                 switch (opcionSeleccionada) {
                                     case 1:
                                         DatosClima datos = ClimaAPI.obtenerDatosClima();
-                                        System.out.println("Ciudad: " + datos.getCiudad() + " ,Clima: " + datos.getCodigoTexto() + ", min: " + datos.getTemperaturaMinima() + ", max: " + datos.getTemperaturaMaxima());                                        break;
+                                        System.out.println("Ciudad: " + datos.getCiudad() + ", Clima: " + datos.getCodigoTexto() + ", min: " + datos.getTemperaturaMinima() + ", max: " + datos.getTemperaturaMaxima());                                        break;
                                     case 2:
                                         System.out.println("Ingrese cantidad de comida en kilogramos: (" + granja.getComidaDisponible() + ")");
                                         double comida = Double.parseDouble(scan.nextLine());
@@ -261,7 +268,6 @@ public class Navegacion {
         File archivo = new File("configuracion");
         if (archivo.exists()) {
             Configuracion configuracion = Configuracion.leerArchivo();
-            System.out.println(configuracion.toString());
         } else {
             Configuracion.getInstance();
         }
