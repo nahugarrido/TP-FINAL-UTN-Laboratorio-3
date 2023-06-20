@@ -4,7 +4,7 @@ package enums;
 
 /**
  * Esta enumeración representa diferentes razas de gallinas.
- * Este código define una enumeración de razas de gallinas con información relacionada a cada raza.
+ * Define una enumeración de razas de gallinas con información relacionada a cada raza.
  */
 public enum EnumRazas {
     RHODE_ISLAND_RED("Rhode Island Red", EnumColor.MEDIO_CLARO,40,-10,12),
@@ -16,6 +16,14 @@ public enum EnumRazas {
     private final int temperaturaMinimaContenta;
     private final int vidaUtil;
 
+    /**
+     * Crea una nueva instancia de la enumeración EnumRazas con los parámetros especificados
+     * @param nombreRaza
+     * @param colorHuevo
+     * @param temperaturaMaximaContenta
+     * @param temperaturaMinimaContenta
+     * @param vidaUtil
+     */
     EnumRazas(String nombreRaza, EnumColor colorHuevo, int temperaturaMaximaContenta, int temperaturaMinimaContenta, int vidaUtil) {
         this.nombreRaza = nombreRaza;
         this.colorHuevo = colorHuevo;
