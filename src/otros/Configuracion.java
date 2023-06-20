@@ -29,6 +29,10 @@ public class Configuracion implements Serializable {
                 '}';
     }
 
+    /**
+     * Obtener instancia de configuracion
+     * @return instancia de configuracion
+     */
     public static Configuracion getInstance() {
         if (instancia == null) {
             instancia = new Configuracion();
@@ -36,6 +40,10 @@ public class Configuracion implements Serializable {
         return instancia;
     }
 
+    /**
+     * Leer archivo con una instancia previa de configuracion
+     * @return instancia de configuracion
+     */
     public static Configuracion leerArchivo() {
         if (Configuracion.instancia == null) {
             Configuracion.instancia = serializar.deserializar("configuracion");
@@ -43,37 +51,69 @@ public class Configuracion implements Serializable {
         return Configuracion.instancia;
     }
 
+    /**
+     * obtener contador de gallinas
+     * @return contador de gallinas
+     */
     public int getContadorGallinas() {
         return this.contadorGallinas;
     }
 
+    /**
+     * obtener contador de granjas
+     * @return contador de granjas
+     */
     public int getContadorGranjas() {
         return this.contadorGranjas;
     }
 
+    /**
+     * obtener contador de usuarios
+     * @return contador de usuarios
+     */
     public int getContadorUsuarios() {
         return contadorUsuarios;
     }
 
+    /**
+     * obtener contador de lotes
+     * @return contador de lotes
+     */
+    public int getContadorLotes() {
+        return contadorLotes;
+    }
+
+    /**
+     * Actualizar contador de gallinas
+     * @param contadorGallinas nuevo valor
+     */
     public void setContadorGallinas(int contadorGallinas) {
         this.contadorGallinas = contadorGallinas;
         Configuracion.guardarEnArchivo();
     }
 
+    /**
+     * Actualizar contador de granjas
+     * @param contadorGranjas nuevo valor
+     */
     public void setContadorGranjas(int contadorGranjas) {
         this.contadorGranjas = contadorGranjas;
         Configuracion.guardarEnArchivo();
     }
 
+    /**
+     * Actualizar contador de usuarios
+     * @param contadorUsuarios nuevo valor
+     */
     public void setContadorUsuarios(int contadorUsuarios) {
         this.contadorUsuarios = contadorUsuarios;
         Configuracion.guardarEnArchivo();
     }
 
-    public int getContadorLotes() {
-        return contadorLotes;
-    }
-
+    /**
+     * Actualizar contador de lotes
+     * @param contadorLotes nuevo valor
+     */
     public void setContadorLotes(int contadorLotes) {
         this.contadorLotes = contadorLotes;
         Configuracion.guardarEnArchivo();
