@@ -19,6 +19,9 @@ import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Esta clase representa la lógica y el funcionamiento de una granja
+ */
 public class Granja implements Serializable, Entidad {
     private final int id;
     private String nombre;

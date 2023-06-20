@@ -2,6 +2,10 @@ package enums;
 
 /// Los valores de vida util estan bajos para que sea mas divertido de testear
 
+/**
+ * Esta enumeración representa diferentes razas de gallinas.
+ * Este código define una enumeración de razas de gallinas con información relacionada a cada raza.
+ */
 public enum EnumRazas {
     RHODE_ISLAND_RED("Rhode Island Red", EnumColor.MEDIO_CLARO,40,-10,12),
     SUSSEX("Sussex", EnumColor.CREMA,30,5,10),

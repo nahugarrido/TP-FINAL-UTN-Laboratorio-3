@@ -12,6 +12,10 @@ import otros.GeneradorID;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * La clase Gallina modela una gallina en un sistema, permite gestionar su alimentación,
+ * controlar la puesta de huevos y modificar su estado en función de diferentes condiciones.
+ */
 public class Gallina implements Entidad, Serializable {
     private final int id;
     private int diasSinComer;
@@ -61,6 +65,11 @@ public class Gallina implements Entidad, Serializable {
         return 5;
     }
 
+    /**
+     * Se gestiona la alimentacion de la gallina
+     * @param comidaDisponible
+     * @return cantidad comida por la gallina
+     */
     public int comer(double comidaDisponible) {
         /// se convierte la comida en kg a gramos
         int comidaEnGramos = (int) (comidaDisponible * 1000);
@@ -83,10 +92,13 @@ public class Gallina implements Entidad, Serializable {
             this.setDiasSinComer(0);
         }
 
-        /// se retorna la cantidad comida por la gallina
+
         return comida;
     }
 
+    /**
+     *Controlar la puesta de huevos de una gallina.
+     */
     public void ponerHuevos() {
         /// pequeño buffo a la comida para que la gallina tenga un plus al estar feliz
         if (estado.buscarElemento(EnumEstado.FELIZ)) {
@@ -112,6 +124,10 @@ public class Gallina implements Entidad, Serializable {
         this.setContadorHistoricoHuevos(this.getContadorHistoricoHuevos() + this.getCantidadHuevos());
     }
 
+    /**
+     * El método se encarga de modificar el estado de una gallina en función
+     * de diferentes condiciones.
+     */
     public void alterarEstado() {
         DatosClima datos = ClimaAPI.obtenerDatosClima();
         /// Si la temperatura no le gusta a la gallina o no ha comido o el dia no le gusta, la gallina se estresa.
@@ -128,6 +144,9 @@ public class Gallina implements Entidad, Serializable {
         }
     }
 
+    /**
+     * Reseatar atributos cantidadComida y CantidadHuevos
+     */
     public void resetearAtributos() {
         this.setCantidadComida(0);
         this.setCantidadHuevos(0);
