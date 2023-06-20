@@ -59,7 +59,7 @@ public class Granja implements Serializable, Entidad {
 
     @Override
     public boolean equals(Object aComparar) {
-        if(aComparar != null && aComparar instanceof Granja) {
+        if (aComparar != null && aComparar instanceof Granja) {
             return this.getId() == ((Granja) aComparar).getId();
         }
         return false;
@@ -82,11 +82,11 @@ public class Granja implements Serializable, Entidad {
     }
 
     public void avanzarUnDia() throws RecolectarHuevosException {
-        if(this.isHanComido() && !this.isHanRecolectado()) {
+        if (this.isHanComido() && !this.isHanRecolectado()) {
             throw new RecolectarHuevosException("Debes recolectar los huevos antes de avanzar! ");
         }
 
-        if(!this.isHanComido()) {
+        if (!this.isHanComido()) {
             listaGallinas.aumentarContadorDiasSinComer();
             System.out.println("Debes tener cuidado, si no alimentas a tus gallinas, pueden morir!");
         }
@@ -120,12 +120,18 @@ public class Granja implements Serializable, Entidad {
         return "Se aplican los costos fijos (-500), el nuevo saldo de la granja es: " + this.getSaldo();
     }
 
+    /**
+     * Se encarga de alimentar a las gallinas en la granja.
+     * @param comidaKg
+     * @throws ComidaNoSuficienteException
+     * @throws HanComidoException
+     */
     public void alimentarGallinas(double comidaKg) throws ComidaNoSuficienteException, HanComidoException {
-        if(hanComido == true) {
-           throw new HanComidoException("Las gallinas ya han comido hoy.");
+        if (hanComido == true) {
+            throw new HanComidoException("Las gallinas ya han comido hoy.");
         }
         if (comidaKg > this.getComidaDisponible()) {
-            throw new ComidaNoSuficienteException("",this.getComidaDisponible(), comidaKg);
+            throw new ComidaNoSuficienteException("", this.getComidaDisponible(), comidaKg);
         } else {
             /// descontamos el valor a darle a las gallinas
             System.out.println("TEST: anterior valor en comida, VALOR: " + this.getComidaDisponible());
@@ -147,24 +153,32 @@ public class Granja implements Serializable, Entidad {
 
     public String calcularPromediosEstados() {
         double[] estados = listaGallinas.calcularPromediosEstados();
-       return "Promedio de gallinas felices: " + estados[0] + "%\n" +
-               "Promedio de gallinas estresadas: " + estados[1] + "%";
+        return "Promedio de gallinas felices: " + estados[0] + "%\n" +
+                "Promedio de gallinas estresadas: " + estados[1] + "%";
     }
 
-
+    /**
+     * El método recogerHuevos se encarga de recolectar huevos de las gallinas en un lote
+     * @return Lote
+     * @throws LoteVacioExcepcion
+     * @throws RecolectarHuevosException
+     */
     public Lote recogerHuevos() throws LoteVacioExcepcion, RecolectarHuevosException {
-        if(this.hanRecolectado) {
+        if (this.hanRecolectado) {
             throw new RecolectarHuevosException("Los huevos ya han sido recogidos hoy");
         }
         GenericaMap<EnumColor, Integer> huevosRecogidos = listaGallinas.recogerHuevos();
         this.setHanRecolectado(true);
-        if(huevosRecogidos.obtenerValor(EnumColor.MEDIO_CLARO) == 0 && huevosRecogidos.obtenerValor(EnumColor.BLANCO) == 0 && huevosRecogidos.obtenerValor(EnumColor.CREMA) == 0) {
+        if (huevosRecogidos.obtenerValor(EnumColor.MEDIO_CLARO) == 0 && huevosRecogidos.obtenerValor(EnumColor.BLANCO) == 0 && huevosRecogidos.obtenerValor(EnumColor.CREMA) == 0) {
             throw new LoteVacioExcepcion("No hay huevos que recoger");
         }
-        return new Lote(this.getId(),this.getFecha(), huevosRecogidos);
+        return new Lote(this.getId(), this.getFecha(), huevosRecogidos);
     }
 
-
+    /**
+     *  Analiza la vida útil de las gallinas en la lista y proporciona un resumen estadístico.
+     * @return String
+     */
     public String revisarVidaUtilGallinas() {
         int totalGallinas = listaGallinas.contarElementos();
         int[] contadores = listaGallinas.revisarVidaUtilGallinas();
@@ -172,10 +186,15 @@ public class Granja implements Serializable, Entidad {
         double promedioProximasVidaUtil = (double) contadores[1] / totalGallinas * 100;
 
         return "Total de gallinas = (" + totalGallinas + ")" + "\n" +
-                "Promedio de gallinas que alcanzaron su vida útil: " + promedioAlcanzaronVidaUtil + "(" + contadores[0] +")" + "%\n" +
-                "Promedio de gallinas próximas a alcanzar su vida útil: " + promedioProximasVidaUtil + "(" + contadores[0] +")" + "%";
+                "Promedio de gallinas que alcanzaron su vida útil: " + promedioAlcanzaronVidaUtil + "(" + contadores[0] + ")" + "%\n" +
+                "Promedio de gallinas próximas a alcanzar su vida útil: " + promedioProximasVidaUtil + "(" + contadores[0] + ")" + "%";
     }
 
+    /**
+     *
+     El método matarGallinasVidaUtil describe la eliminación de gallinas basada en su vida útil.
+     * @return String
+     */
     public String matarGallinasVidaUtil() {
         String texto = "";
         double random = Math.random();
@@ -203,6 +222,10 @@ public class Granja implements Serializable, Entidad {
         return texto;
     }
 
+    /**
+     * El método devuelve un resumen diario de la granja.
+     * @return texto.
+     */
     public String madreNaturaleza() {
         String texto = "Hoy ha sido un dia pacifico y calmado en " + this.getNombre() + ".";
         int contador = listaGallinas.matarGallinasPorHambre();
@@ -213,7 +236,12 @@ public class Granja implements Serializable, Entidad {
         return texto;
     }
 
-
+    /**
+     * El método compra gallinas de una raza específica en una cantidad determinada.
+     * @param raza gallina.
+     * @param cantidad solicitada.
+     * @return cantidad comprada.
+     */
     public int comprarGallinas(EnumRazas raza, int cantidad) {
         double precioPorGallina = 0.0;
 
@@ -253,6 +281,11 @@ public class Granja implements Serializable, Entidad {
     }
 
 
+    /**
+     * El método comprarAlimento compra alimentos siempre y cuando haya saldo disponible.
+     * @param cantidad solicitada.
+     * @return cantidad alimento comprado.
+     */
     public double comprarAlimento(double cantidad) {
         double precioPorKilo = 10.0; // Precio del alimento por kilo
         double maxCantidad = this.getSaldo() / precioPorKilo; // Cantidad máxima que se puede comprar con el saldo disponible
