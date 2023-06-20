@@ -21,9 +21,11 @@ public class Configuracion implements Serializable {
 
     @Override
     public String toString() {
-        return "otros.Configuracion{" +
+        return "Configuracion{" +
                 "contadorGallinas=" + contadorGallinas +
                 ", contadorGranjas=" + contadorGranjas +
+                ", contadorUsuarios=" + contadorUsuarios +
+                ", contadorLotes=" + contadorLotes +
                 '}';
     }
 
