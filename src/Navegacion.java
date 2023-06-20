@@ -192,7 +192,6 @@ public class Navegacion {
                                         System.out.println(granja.calcularPromediosEstados());
                                         break;
                                     case 5:
-
                                         try {
                                             Lote nuevoLote = granja.recogerHuevos();
                                             controladoraLotes.agregarLoteNuevo(nuevoLote);
