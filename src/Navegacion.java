@@ -47,11 +47,11 @@ public class Navegacion {
             System.out.println("3) Ver granjas");
             System.out.println("4) Ver usuarios");
             System.out.println("5) Ver historial lotes");
-            System.out.println("*) Modificar una granja *** AGREGAR");
-            System.out.println("*) Modificar un usuario *** AGREGAR");
-            System.out.println("*) Eliminar una granja *** AGREGAR");
-            System.out.println("*) Eliminar un usuario *** AGREGAR");
-            System.out.println("6) Salir");
+            System.out.println("6) Modificar una granja");
+            System.out.println("7) Modificar un usuario");
+            System.out.println("8) Eliminar una granja");
+            System.out.println("9) Eliminar un usuario");
+            System.out.println("10) Salir");
             System.out.println("----------------------------------------");
             System.out.print("Navegar: ");
             opcion = scan.nextLine();
@@ -71,9 +71,9 @@ public class Navegacion {
                         /// Se selecciona la granja
                         this.setGranja(controladoraGranjas.obtenerGranja(usuario.getIdGranja()));
 
-                        if(granja.getSaldo() < 0) {
+                        if (granja.getSaldo() < 0) {
                             try {
-                                throw new SaldoNegativoException("",granja.getSaldo());
+                                throw new SaldoNegativoException("", granja.getSaldo());
                             } catch (SaldoNegativoException e) {
                                 System.out.println(e.getMessage());
                                 break;
@@ -133,12 +133,12 @@ public class Navegacion {
                                         }
 
                                         System.out.println("COTIZACIONES DE HUEVOS DEL DIA------------");
-                                        System.out.println("1) HUEVO BLANCO $" + (cotizacionHuevos+5));
-                                        System.out.println("2) HUEVO CREMA $" + (cotizacionHuevos-5));
+                                        System.out.println("1) HUEVO BLANCO $" + (cotizacionHuevos + 5));
+                                        System.out.println("2) HUEVO CREMA $" + (cotizacionHuevos - 5));
                                         System.out.println("3) HUEVO MEDIO CLARO $" + cotizacionHuevos);
-                                        System.out.println("DESEAS LIQUIDAR TUS LOTES? (y/n):" );
+                                        System.out.println("DESEAS LIQUIDAR TUS LOTES? (y/n):");
                                         String opcionCotizaciones = scan.nextLine();
-                                        if(opcionCotizaciones.equals("y")) {
+                                        if (opcionCotizaciones.equals("y")) {
                                             try {
                                                 double beneficios = controladoraLotes.venderLotes(granja.getId(), cotizacionHuevos);
                                                 granja.setSaldo(granja.getSaldo() + beneficios);
@@ -172,7 +172,8 @@ public class Navegacion {
                                 switch (opcionSeleccionada) {
                                     case 1:
                                         DatosClima datos = ClimaAPI.obtenerDatosClima();
-                                        System.out.println("Ciudad: " + datos.getCiudad() + ", Clima: " + datos.getCodigoTexto() + ", min: " + datos.getTemperaturaMinima() + ", max: " + datos.getTemperaturaMaxima());                                        break;
+                                        System.out.println("Ciudad: " + datos.getCiudad() + ", Clima: " + datos.getCodigoTexto() + ", min: " + datos.getTemperaturaMinima() + ", max: " + datos.getTemperaturaMaxima());
+                                        break;
                                     case 2:
                                         System.out.println("Ingrese cantidad de comida en kilogramos: (" + granja.getComidaDisponible() + ")");
                                         double comida = Double.parseDouble(scan.nextLine());
@@ -216,8 +217,7 @@ public class Navegacion {
                                                 throw new SaldoNegativoException("", granja.getSaldo());
                                             }
 
-                                        }
-                                         catch (RecolectarHuevosException e) {
+                                        } catch (RecolectarHuevosException e) {
                                             System.out.println(e.getMessage());
                                         } catch (SaldoNegativoException e) {
                                             System.out.println(e.getMessage());
@@ -251,6 +251,118 @@ public class Navegacion {
                     System.out.println(controladoraLotes.mostrarLotes());
                     break;
                 case "6":
+                    String continuarModificar = "";
+                    System.out.println("INGRESE EL ID DE LA GRANJA A MODIFICAR:");
+
+                    int idModificar;
+
+                    try {
+                        idModificar = Integer.parseInt(scan.nextLine());
+                    } catch (NumberFormatException e) {
+                        System.out.println("No es un id valido.");
+                        break;
+                    }
+                    Granja granjaModificar = controladoraGranjas.obtenerGranja(idModificar);
+
+                    System.out.println(granjaModificar.toString());
+                    System.out.println("Deseas cambiar el nombre de la granja?(y/n)");
+                    continuarModificar = scan.nextLine();
+                    if (continuarModificar.equals("y")) {
+                        System.out.println("INGRESE EL NUEVO NOMBRE: ");
+                        String nuevoNombre = scan.nextLine();
+                        granjaModificar.setNombre(nuevoNombre);
+                    }
+
+                    System.out.println("Deseas cambiar el saldo de la granja?(y/n)");
+                    continuarModificar = scan.nextLine();
+                    if (continuarModificar.equals("y")) {
+                        System.out.println("INGRESE EL NUEVO SALDO: ");
+                        String nuevoSaldo = scan.nextLine();
+                        granjaModificar.setSaldo(Double.parseDouble(nuevoSaldo));
+                    }
+
+
+                    System.out.println("Deseas cambiar la fecha de la granja?(y/n)");
+                    continuarModificar = scan.nextLine();
+                    if (continuarModificar.equals("y")) {
+                        System.out.println("INGRESE LA NUEVA FECHA: formato (yyyy-mm-dd)");
+                        String nuevaFecha = scan.nextLine();
+                        granjaModificar.setFecha(nuevaFecha);
+                    }
+
+                    System.out.println(granjaModificar.toString());
+                    controladoraGranjas.actualizarGranja(granjaModificar);
+                    System.out.println("Datos de la granja actualizados con exito.");
+
+                    break;
+                case "7":
+                    continuarModificar = "";
+                    System.out.println("INGRESE EL ID DEL USUARIO A MODIFICAR:");
+
+                    int idModificarUsuario;
+
+                    try {
+                        idModificarUsuario = Integer.parseInt(scan.nextLine());
+                    } catch (NumberFormatException e) {
+                        System.out.println("No es un id valido.");
+                        break;
+                    }
+
+                    Usuario usuarioModificar = controladoraUsuarios.obtenerUsuario(idModificarUsuario);
+
+                    System.out.println("Deseas cambiar la clave del usuario?(y/n)");
+                    continuarModificar = scan.nextLine();
+                    if (continuarModificar.equals("y")) {
+                        System.out.println("INGRESE LA NUEVA CLAVE: ");
+                        String nuevaClave = scan.nextLine();
+                        usuarioModificar.setClave(nuevaClave);
+                    }
+
+                    System.out.println(usuarioModificar.toString());
+                    controladoraUsuarios.actualizarUsuario(usuarioModificar);
+                    System.out.println("Datos del Usuario actualizados con exito.");
+                    break;
+                case "8":
+                    continuarModificar = "";
+                    System.out.println("INGRESE EL ID DE LA GRANJA A BORRAR:");
+                    int idBorrar;
+                    try {
+                        idBorrar = Integer.parseInt(scan.nextLine());
+                    } catch (NumberFormatException e) {
+                        System.out.println("No es un id valido.");
+                        break;
+                    }
+                    Granja granjaBorrar = controladoraGranjas.obtenerGranja(idBorrar);
+
+                    System.out.println(granjaBorrar.toString());
+                    System.out.println("Estas seguro de que deseas eliminar esta granja?(y/n)");
+                    continuarModificar = scan.nextLine();
+                    if (continuarModificar.equals("y")) {
+                        System.out.println(controladoraGranjas.eliminarGranja(granjaBorrar));
+
+                    }
+                    break;
+                case "9":
+                    continuarModificar = "";
+                    System.out.println("INGRESE EL ID DE LA GRANJA A BORRAR:");
+                    int idBorrarUsuario;
+                    try {
+                        idBorrarUsuario = Integer.parseInt(scan.nextLine());
+                    } catch (NumberFormatException e) {
+                        System.out.println("No es un id valido.");
+                        break;
+                    }
+
+                    Usuario usuarioBorrar = controladoraUsuarios.obtenerUsuario(idBorrarUsuario);
+
+                    System.out.println(usuarioBorrar.toString());
+                    System.out.println("Estas seguro de que deseas eliminar este usuario?(y/n)");
+                    continuarModificar = scan.nextLine();
+                    if (continuarModificar.equals("y")) {
+                        System.out.println(controladoraUsuarios.eliminarUsuario(usuarioBorrar));
+                    }
+                    break;
+                case "10":
                     continuar = false;
                     break;
                 default:

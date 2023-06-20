@@ -94,6 +94,13 @@ public class ControladoraGranjas {
         this.guardarArchivoGranjas();
     }
 
+    public String eliminarGranja(Granja granja) {
+        listaGranjas.eliminarElemento(granja);
+        this.guardarArchivoGranjas();
+
+        return "Granja eliminada con exito";
+    }
+
     private void setListaGranjas(GenericaList<Granja> listaGranjas) {
         this.listaGranjas = listaGranjas;
     }

@@ -154,6 +154,22 @@ public class ControladoraUsuarios {
         return listaUsuarios.listarElementos();
     }
 
+    public Usuario obtenerUsuario(int idUsuario) {
+        return listaUsuarios.buscarPorId(idUsuario);
+    }
+
+    public void actualizarUsuario(Usuario usuario) {
+        listaUsuarios.actualizarElemento(usuario);
+        this.guardarArchivoUsuarios();
+    }
+
+    public String eliminarUsuario(Usuario usuario) {
+        listaUsuarios.eliminarElemento(usuario);
+        this.guardarArchivoUsuarios();
+
+        return "Usuario eliminado con exito";
+    }
+
     private void setListaUsuarios(ListaUsuarios listaUsuarios) {
         this.listaUsuarios = listaUsuarios;
     }
