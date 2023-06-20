@@ -385,18 +385,35 @@ public class Navegacion {
         }
     }
 
+    /**
+     * Obtener usuario activo
+     * @return usuario
+     */
     public Usuario getUsuario() {
         return usuario;
     }
+
+    /**
+     * Establecer usuario activo
+     * @param usuario usuario a activar
+     */
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
 
+    /**
+     * Obtener granja activa
+     * @return granja
+     */
     public Granja getGranja() {
         return granja;
     }
 
+    /**
+     * Establecer granja activa
+     * @param granja granja a activar
+     */
     public void setGranja(Granja granja) {
         this.granja = granja;
     }

@@ -28,7 +28,7 @@ public class ListaLotes extends GenericaList<Lote> implements Serializable {
         double ingresosTotales = 0;
 
         for(Lote item : listaGenerica) {
-            if(item.getIdGranja() == idGranja) {
+            if(item.getIdGranja() == idGranja && !item.isEstaVendido()) {
                 double gananciaBlancos = item.obtenerCantidad(EnumColor.BLANCO) * (cotizacionHuevos + 5);
                 double gananciaCrema = item.obtenerCantidad(EnumColor.CREMA) * (cotizacionHuevos - 5);
                 double gananciaMarrones = item.obtenerCantidad(EnumColor.MEDIO_CLARO) * (cotizacionHuevos);

@@ -154,15 +154,29 @@ public class ControladoraUsuarios {
         return listaUsuarios.listarElementos();
     }
 
+    /**
+     * Obtener un usuario
+     * @param idUsuario id del usuario
+     * @return usuario
+     */
     public Usuario obtenerUsuario(int idUsuario) {
         return listaUsuarios.buscarPorId(idUsuario);
     }
 
+    /**
+     * Actualizar informacion de un usuario
+     * @param usuario usuario a actualizar
+     */
     public void actualizarUsuario(Usuario usuario) {
         listaUsuarios.actualizarElemento(usuario);
         this.guardarArchivoUsuarios();
     }
 
+    /**
+     * Eliminar un usuario
+     * @param usuario usuario a eliminar
+     * @return texto de exito
+     */
     public String eliminarUsuario(Usuario usuario) {
         listaUsuarios.eliminarElemento(usuario);
         this.guardarArchivoUsuarios();
@@ -170,6 +184,10 @@ public class ControladoraUsuarios {
         return "Usuario eliminado con exito";
     }
 
+    /**
+     * actualizar lista de usuarios
+     * @param listaUsuarios lista actualizada
+     */
     private void setListaUsuarios(ListaUsuarios listaUsuarios) {
         this.listaUsuarios = listaUsuarios;
     }
