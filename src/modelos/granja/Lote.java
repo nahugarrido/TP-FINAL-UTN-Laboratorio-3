@@ -9,6 +9,9 @@ import otros.GeneradorID;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Clase que recolecta los huevos producidos un dia y los agrupa en un lote.
+ */
 public class Lote implements Entidad, Serializable {
     private final int id;
     private int idGranja;
@@ -83,7 +86,4 @@ public class Lote implements Entidad, Serializable {
         return cantidadHuevos.obtenerValor(color);
     }
 
-    public String verLote() {
-        return cantidadHuevos.listarElementos();
-    }
 }

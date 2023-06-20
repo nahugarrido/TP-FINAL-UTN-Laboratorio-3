@@ -3,6 +3,9 @@ import interfaces.Entidad;
 import otros.GeneradorID;
 import java.io.Serializable;
 
+/**
+ * Clase usuario, se utiliza para acceder a una granja en concreto
+ */
 public abstract class Usuario implements Comparable<Usuario>, Serializable, Entidad {
     private final int id;
     private int idGranja;

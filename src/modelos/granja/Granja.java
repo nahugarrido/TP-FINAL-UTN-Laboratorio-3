@@ -86,6 +86,10 @@ public class Granja implements Serializable, Entidad {
         return "La fecha ingresada es: " + this.getFecha();
     }
 
+    /**
+     * Realiza peticion a aplicacion para avanzar un dia. Resetea atributos de gallinas, aplica operaciones de avanzar en tiempo.
+     * @throws RecolectarHuevosException Si alimentas a las gallinas debes recolectar los huevos
+     */
     public void avanzarUnDia() throws RecolectarHuevosException {
         if (this.isHanComido() && !this.isHanRecolectado()) {
             throw new RecolectarHuevosException("Debes recolectar los huevos antes de avanzar! ");
@@ -120,6 +124,10 @@ public class Granja implements Serializable, Entidad {
         listaGallinas.alterarEstadoGallinas();
     }
 
+    /**
+     * Disminuye el saldo de la granja
+     * @return texto de operacion realizada
+     */
     public String costosFijos() {
         this.setSaldo(this.getSaldo() - 500);
         return "Se aplican los costos fijos (-500), el nuevo saldo de la granja es: " + this.getSaldo();
@@ -151,10 +159,18 @@ public class Granja implements Serializable, Entidad {
 
     }
 
+    /**
+     * Muestra el estado de las gallinas
+     * @return texto con estado de gallinas (toString)
+     */
     public String obtenerEstadoGallinas() {
         return listaGallinas.listarElementos();
     }
 
+    /**
+     * Calcula que porcentaje de nuestras gallinas esta estresada y que porcentaje esta feliz
+     * @return texto con informacion calculada
+     */
     public String calcularPromediosEstados() {
         double[] estados = listaGallinas.calcularPromediosEstados();
         return "Promedio de gallinas felices: " + estados[0] + "%\n" +

@@ -3,11 +3,18 @@ package modelos.usuarios;
 import java.io.Serializable;
 import java.util.Scanner;
 
+/**
+ * Clase administrador, sub-clase de Usuario. Tiene diferente nivel de acceso en Navegacion.
+ */
 public class Administrador extends Usuario implements Serializable {
     public Administrador(String usuario, String clave) {
         super(usuario, clave);
     }
 
+    /**
+     * Muestra las opciones que puede realizar un Administrador
+     * @return opcion seleccionada
+     */
     @Override
     public int mostrarMenu() {
         Scanner scan = new Scanner(System.in);
