@@ -41,9 +41,9 @@ public class Granja implements Serializable, Entidad {
         this.fecha = fecha;
         this.usuariosValidos = new HashSet<>();
         usuariosValidos.add(idUsuario);
-        this.comidaDisponible = 10;
+        this.comidaDisponible = 0;
         this.gallinasMuertas = 0;
-        this.saldo = 5000;
+        this.saldo = 30000;
         this.listaGallinas = new ListaGallinas();
         this.hanComido = false;
         this.hanRecolectado = false;
@@ -51,15 +51,11 @@ public class Granja implements Serializable, Entidad {
 
     @Override
     public String toString() {
-        return "Granja{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", fecha='" + fecha + '\'' +
-                ", usuariosValidos=" + usuariosValidos +
-                ", comidaDisponible=" + comidaDisponible +
-                ", gallinasMuertas=" + gallinasMuertas +
-                ", saldo=" + saldo +
-                '}';
+        return "Granja: " + nombre + ", id: " + id +
+                ", fecha actual: " + fecha + ", usuarios: " +
+                usuariosValidos + ", comida disponible: " +
+                comidaDisponible + ", balance: $" + saldo +
+                ", gallinasMuertas: " + gallinasMuertas;
     }
 
     @Override
@@ -88,6 +84,7 @@ public class Granja implements Serializable, Entidad {
 
     /**
      * Realiza peticion a aplicacion para avanzar un dia. Resetea atributos de gallinas, aplica operaciones de avanzar en tiempo.
+     *
      * @throws RecolectarHuevosException Si alimentas a las gallinas debes recolectar los huevos
      */
     public void avanzarUnDia() throws RecolectarHuevosException {
@@ -126,6 +123,7 @@ public class Granja implements Serializable, Entidad {
 
     /**
      * Disminuye el saldo de la granja
+     *
      * @return texto de operacion realizada
      */
     public String costosFijos() {
@@ -153,7 +151,7 @@ public class Granja implements Serializable, Entidad {
             /// realizamos la operacion
             double comidaRestante = listaGallinas.alimentarGallinas(comidaKg);
             /// actualizamos el valor de la comida en la granja en caso de que haya sobrado
-            this.setComidaDisponible(this.getComidaDisponible() + comidaRestante);
+            //this.setComidaDisponible(this.getComidaDisponible() + comidaRestante);
             this.setHanComido(true);
         }
 
@@ -161,6 +159,7 @@ public class Granja implements Serializable, Entidad {
 
     /**
      * Muestra el estado de las gallinas
+     *
      * @return texto con estado de gallinas (toString)
      */
     public String obtenerEstadoGallinas() {
@@ -169,6 +168,7 @@ public class Granja implements Serializable, Entidad {
 
     /**
      * Calcula que porcentaje de nuestras gallinas esta estresada y que porcentaje esta feliz
+     *
      * @return texto con informacion calculada
      */
     public String calcularPromediosEstados() {
@@ -224,13 +224,10 @@ public class Granja implements Serializable, Entidad {
         if (random > 0) {
             texto = "Has ido a matar a Cleta, pero has visto sus brillantes ojos y no has podido hacerlo.";
         }
-        if (random > 0.20) {
-            texto = "Has tratado de matar a Turuleca, pero sus hijos observaban y te has arrepentido.";
-        }
         if (random > 0.40) {
             texto = "Has tratado de matar a Julia, pero es programadora y simio no mata simio.";
         }
-        if (random > 0.60) {
+        if (random > 0.80) {
             texto = "Te has tropezado agarrando el cuchillo, decides que hoy no mataras a Cleta.";
         }
 
@@ -273,6 +270,7 @@ public class Granja implements Serializable, Entidad {
         int cantidad = 0;
         do {
             System.out.println("MENU COMPRAR GALLINAS:");
+            System.out.println("Las gallinas Rhode Island Red son las mas resistentes en general, las Sussex soportan mejor el calor, mientras que las Filibar soportan mejor las bajas temperaturas, sim embargo todas se estresan si llueve, hay tormenta o nieva.");
             System.out.println("SALDO DISPONIBLE: $" + this.getSaldo());
             System.out.println("1) RHODE ISLAND RED ($120)");
             System.out.println("2) SUSSEX ($100)");

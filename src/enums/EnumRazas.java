@@ -8,8 +8,8 @@ package enums;
  */
 public enum EnumRazas {
     RHODE_ISLAND_RED("Rhode Island Red", EnumColor.MEDIO_CLARO,40,-10,12),
-    SUSSEX("Sussex", EnumColor.CREMA,30,5,10),
-    FILIBAR("Filibar", EnumColor.BLANCO,25,8,8);
+    SUSSEX("Sussex", EnumColor.CREMA,35,15,10),
+    FILIBAR("Filibar", EnumColor.BLANCO,25,-10,8);
     private final String nombreRaza;
     private final EnumColor colorHuevo;
     private final int temperaturaMaximaContenta;

@@ -175,6 +175,7 @@ public class Navegacion {
                                         System.out.println("Ciudad: " + datos.getCiudad() + ", Clima: " + datos.getCodigoTexto() + ", min: " + datos.getTemperaturaMinima() + ", max: " + datos.getTemperaturaMaxima());
                                         break;
                                     case 2:
+                                        System.out.println("Informacion de interes: las gallinas suelen comer entre 60 y 90 gramos de comida, algunas deciden no comer nada.");
                                         System.out.println("Ingrese cantidad de comida en kilogramos: (" + granja.getComidaDisponible() + ")");
                                         double comida = Double.parseDouble(scan.nextLine());
                                         try {

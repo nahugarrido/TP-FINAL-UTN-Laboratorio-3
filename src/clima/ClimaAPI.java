@@ -57,6 +57,7 @@ public class ClimaAPI {
             connection.connect();
             int responseCode = connection.getResponseCode();
             if (responseCode != 200) {
+                System.out.println("La API soporta fechas anteriores al 31/02/2023");
                 throw new RuntimeException("Codigo de error: " + responseCode);
             } else {
                 StringBuilder stringBuilder = new StringBuilder();

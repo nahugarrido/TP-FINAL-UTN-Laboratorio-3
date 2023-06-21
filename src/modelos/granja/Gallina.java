@@ -37,19 +37,15 @@ public class Gallina implements Entidad, Serializable {
         this.estado = new GenericaSet<>();
         estado.agregarElemento(EnumEstado.FELIZ);
     }
-
     @Override
     public String toString() {
-        return "Gallina{" +
-                "id=" + id +
-                ", diasSinComer=" + diasSinComer +
-                ", contadorHistoricoHuevos=" + contadorHistoricoHuevos +
-                ", cantidadHuevos=" + cantidadHuevos +
-                ", cantidadComida=" + cantidadComida +
-                ", raza=" + raza.toString() +
-                ", colorHuevo=" + colorHuevo +
-                ", estado=" + estado.listarElementos() +
-                '}';
+        return "Gallina: " + raza.getNombreRaza() + ", id: " + id +
+                ", dias sin comer:" + diasSinComer +
+                ", huevos colocados historico: " + contadorHistoricoHuevos +
+                ", huevos colocados hoy: " + cantidadHuevos +
+                ", cantidad comida hoy: " + cantidadComida +
+                ", color de huevos: " + colorHuevo +
+                ", estado: " + estado.listarElementos();
     }
 
     @Override
